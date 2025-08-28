@@ -4,20 +4,27 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
+# Add an ARG to receive the variable from docker-compose
+ARG REACT_APP_BACKEND_URL
+
+# Set the ENV variable inside the container using the ARG
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+
 # Install dependencies
 COPY frontend/package.json frontend/yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-# Copy env file (must be before build)
+# Copy env file (optional, but safe to keep)
 COPY frontend/.env .env
 
 # Copy frontend source code
 COPY frontend/ ./
 
-# --- FIX: Add execute permissions to the build script ---
+# --- FIX: Add execute permissions back to the build script ---
 RUN chmod +x /app/node_modules/.bin/craco
 
 # Build React app
+# This process will now correctly use the ENV variable
 RUN yarn build
 
 # Install a lightweight HTTP server
