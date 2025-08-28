@@ -14,6 +14,9 @@ COPY frontend/.env .env
 # Copy frontend source code
 COPY frontend/ ./
 
+# --- FIX: Add execute permissions to the build script ---
+RUN chmod +x /app/node_modules/.bin/craco
+
 # Build React app
 RUN yarn build
 
