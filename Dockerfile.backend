@@ -1,0 +1,19 @@
+# Backend Dockerfile
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt gunicorn
+
+# Copy backend code
+COPY backend/ .
+
+# Expose backend port
+EXPOSE 8001
+
+# Run backend with Gunicorn
+# Replace `server:app` with your actual entrypoint (file:app_name)
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8001", "server:app"]

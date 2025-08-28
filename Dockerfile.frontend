@@ -1,0 +1,27 @@
+# Frontend Dockerfile
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+COPY frontend/package.json frontend/yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+# Copy env file (must be before build)
+COPY frontend/.env .env
+
+# Copy frontend source code
+COPY frontend/ ./
+
+# Build React app
+RUN yarn build
+
+# Install a lightweight HTTP server
+RUN yarn global add serve
+
+# Expose frontend port
+EXPOSE 3000
+
+# Serve the production build
+CMD ["serve", "-s", "build", "-l", "3000"]
