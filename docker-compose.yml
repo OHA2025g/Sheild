@@ -15,9 +15,15 @@ services:
       restart_policy:
         condition: on-failure
       labels:
+        # Enable Traefik and define the router for HTTP
         - "traefik.enable=true"
+        - "traefik.http.routers.backend-http.rule=Host(`api.menindata.in`)"
+        - "traefik.http.routers.backend-http.entrypoints=web"
+        - "traefik.http.routers.backend-http.middlewares=redirect-to-https@file" # Redirect HTTP to HTTPS
+
+        # Define the router for HTTPS
         - "traefik.http.routers.backend.rule=Host(`api.menindata.in`)"
-        - "traefik.http.routers.backend.entrypoints=https"
+        - "traefik.http.routers.backend.entrypoints=websecure" # Corrected entrypoint
         - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
         - "traefik.http.services.backend.loadbalancer.server.port=8001"
 
@@ -30,9 +36,15 @@ services:
       restart_policy:
         condition: on-failure
       labels:
+        # Enable Traefik and define the router for HTTP
         - "traefik.enable=true"
+        - "traefik.http.routers.frontend-http.rule=Host(`menindata.in`) || Host(`www.menindata.in`)"
+        - "traefik.http.routers.frontend-http.entrypoints=web"
+        - "traefik.http.routers.frontend-http.middlewares=redirect-to-https@file" # Redirect HTTP to HTTPS
+        
+        # Define the router for HTTPS
         - "traefik.http.routers.frontend.rule=Host(`menindata.in`) || Host(`www.menindata.in`)"
-        - "traefik.http.routers.frontend.entrypoints=https"
+        - "traefik.http.routers.frontend.entrypoints=websecure" # Corrected entrypoint
         - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
         - "traefik.http.services.frontend.loadbalancer.server.port=3000"
 
