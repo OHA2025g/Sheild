@@ -1,32 +1,52 @@
+version: "3.9"
+
 services:
   mongo:
     image: mongo:6
-    restart: always
     volumes:
       - ./data/mongo:/data/db
+    deploy:
+      restart_policy:
+        condition: any
+    networks:
+      - easypanel   # attach to traefik's network
 
   backend:
-    build: ./backend
-    restart: always
-    depends_on:
-      - mongo
+    build:
+      context: ./backend
+      dockerfile: ../Dockerfile.backend
     environment:
       - MONGO_URL=mongodb://mongo:27017/mydb
     volumes:
       - ./uploads:/app/uploads
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.menindata-backend.rule=Host(`menindata.in`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.menindata-backend.entrypoints=websecure"
-      - "traefik.http.services.menindata-backend.loadbalancer.server.port=8001"
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.menindata-backend.rule=Host(`menindata.in`) && PathPrefix(`/api`)
+        - traefik.http.routers.menindata-backend.entrypoints=websecure
+        - traefik.http.routers.menindata-backend.tls=true
+        - traefik.http.services.menindata-backend.loadbalancer.server.port=8001
+      restart_policy:
+        condition: any
+    networks:
+      - easypanel
 
   frontend:
-    build: ./frontend
-    restart: always
-    depends_on:
-      - backend
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.menindata-frontend.rule=Host(`menindata.in`)"
-      - "traefik.http.routers.menindata-frontend.entrypoints=websecure"
-      - "traefik.http.services.menindata-frontend.loadbalancer.server.port=3000"
+    build:
+      context: ./frontend
+      dockerfile: ../Dockerfile.frontend
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.menindata-frontend.rule=Host(`menindata.in`)
+        - traefik.http.routers.menindata-frontend.entrypoints=websecure
+        - traefik.http.routers.menindata-frontend.tls=true
+        - traefik.http.services.menindata-frontend.loadbalancer.server.port=3000
+      restart_policy:
+        condition: any
+    networks:
+      - easypanel
+
+networks:
+  easypanel:
+    external: true
