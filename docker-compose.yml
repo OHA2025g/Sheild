@@ -2,9 +2,7 @@ version: "3.9"
 
 services:
   backend:
-    image: menindata-backend:latest
-    networks:
-      - easypanel
+    build: ./backend # Assumes your backend Dockerfile is in a 'backend' folder
     environment:
       - MONGO_URL=mongodb://mongo:27017
       - DB_NAME=test_database
@@ -16,9 +14,7 @@ services:
         condition: on-failure
 
   frontend:
-    image: menindata-frontend:latest
-    networks:
-      - easypanel
+    build: ./frontend # Assumes your frontend Dockerfile is in a 'frontend' folder
     deploy:
       replicas: 1
       restart_policy:
@@ -26,8 +22,6 @@ services:
 
   mongo:
     image: mongo:6
-    networks:
-      - easypanel
     volumes:
       - mongo_data:/data/db
     deploy:
@@ -35,10 +29,7 @@ services:
       restart_policy:
         condition: on-failure
 
-networks:
-  easypanel:
-    external: true
-
 volumes:
   backend_uploads:
   mongo_data:
+
