@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   mongo:
     image: mongo:6
@@ -9,12 +7,10 @@ services:
       restart_policy:
         condition: any
     networks:
-      - easypanel   # attach to traefik's network
+      - easypanel
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: ../Dockerfile.backend
+    image: menindata-backend   # <--- use prebuilt image
     environment:
       - MONGO_URL=mongodb://mongo:27017/mydb
     volumes:
@@ -32,9 +28,7 @@ services:
       - easypanel
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: ../Dockerfile.frontend
+    image: menindata-frontend   # <--- use prebuilt image
     deploy:
       labels:
         - traefik.enable=true
