@@ -15,7 +15,7 @@ COPY frontend/package.json frontend/yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 # Copy env file (optional, but safe to keep)
-#COPY frontend/.env .env
+COPY frontend/.env .env
 
 # Copy frontend source code
 COPY frontend/ ./
