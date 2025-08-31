@@ -8,18 +8,18 @@ services:
     environment:
       - MONGO_URL=mongodb://mongo:27017
       - DB_NAME=test_database
+    volumes:
+      - backend_uploads:/app/uploads
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
-    volumes:
-      - backend_uploads:/app/uploads
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`api.menindata.in`)
-      - traefik.http.routers.backend.entrypoints=websecure
-      - traefik.http.routers.backend.tls.certresolver=letsencrypt
-      - traefik.http.services.backend.loadbalancer.server.port=8001   # 🔧 FIXED
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.backend.rule=Host(`api.menindata.in`)"
+        - "traefik.http.routers.backend.entrypoints=websecure"
+        - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
+        - "traefik.http.services.backend.loadbalancer.server.port=8001"
 
   frontend:
     image: menindata-frontend:latest
@@ -29,23 +29,23 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.frontend.rule=Host(`menindata.in`) || Host(`www.menindata.in`)   # 🔧 FIXED
-      - traefik.http.routers.frontend.entrypoints=websecure
-      - traefik.http.routers.frontend.tls.certresolver=letsencrypt
-      - traefik.http.services.frontend.loadbalancer.server.port=3000
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.frontend.rule=Host(`menindata.in`) || Host(`www.menindata.in`)"
+        - "traefik.http.routers.frontend.entrypoints=websecure"
+        - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+        - "traefik.http.services.frontend.loadbalancer.server.port=3000"
 
   mongo:
     image: mongo:6
     networks:
       - easypanel
+    volumes:
+      - mongo_data:/data/db
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
-    volumes:
-      - mongo_data:/data/db
 
 networks:
   easypanel:
