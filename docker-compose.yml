@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   mongo:
     image: mongo:6
@@ -10,7 +12,7 @@ services:
       - easypanel
 
   backend:
-    image: menindata-backend   # <--- use prebuilt image
+    image: menindata-backend
     environment:
       - MONGO_URL=mongodb://mongo:27017/mydb
     volumes:
@@ -21,6 +23,7 @@ services:
         - traefik.http.routers.menindata-backend.rule=Host(`menindata.in`) && PathPrefix(`/api`)
         - traefik.http.routers.menindata-backend.entrypoints=websecure
         - traefik.http.routers.menindata-backend.tls=true
+        - traefik.http.routers.menindata-backend.tls.certresolver=letsencrypt
         - traefik.http.services.menindata-backend.loadbalancer.server.port=8001
       restart_policy:
         condition: any
@@ -28,13 +31,14 @@ services:
       - easypanel
 
   frontend:
-    image: menindata-frontend   # <--- use prebuilt image
+    image: menindata-frontend
     deploy:
       labels:
         - traefik.enable=true
         - traefik.http.routers.menindata-frontend.rule=Host(`menindata.in`)
         - traefik.http.routers.menindata-frontend.entrypoints=websecure
         - traefik.http.routers.menindata-frontend.tls=true
+        - traefik.http.routers.menindata-frontend.tls.certresolver=letsencrypt
         - traefik.http.services.menindata-frontend.loadbalancer.server.port=3000
       restart_policy:
         condition: any
