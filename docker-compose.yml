@@ -15,17 +15,20 @@ services:
       restart_policy:
         condition: on-failure
       labels:
-        # Enable Traefik and define the router for HTTP
         - "traefik.enable=true"
-        - "traefik.http.routers.backend-http.rule=Host(`api.menindata.in`)"
-        - "traefik.http.routers.backend-http.entrypoints=web"
-        - "traefik.http.routers.backend-http.middlewares=redirect-to-https@file" # Redirect HTTP to HTTPS
 
-        # Define the router for HTTPS
-        - "traefik.http.routers.backend.rule=Host(`api.menindata.in`)"
-        - "traefik.http.routers.backend.entrypoints=websecure" # Corrected entrypoint
-        - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
-        - "traefik.http.services.backend.loadbalancer.server.port=8001"
+        # --- HTTP Router for Redirect ---
+        - "traefik.http.routers.backend-http.rule=Host(`api.menindata.in`)"
+        - "traefik.http.routers.backend-http.entrypoints=http"
+        - "traefik.http.routers.backend-http.middlewares=https-redirect"
+
+        # --- HTTPS Router ---
+        - "traefik.http.routers.backend-https.rule=Host(`api.menindata.in`)"
+        - "traefik.http.routers.backend-https.entrypoints=https"
+        - "traefik.http.routers.backend-https.tls=true"
+        - "traefik.http.routers.backend-https.tls.certresolver=letsencrypt"
+        - "traefik.http.services.backend-service.loadbalancer.server.port=8001" # Service name updated for clarity
+        - "traefik.http.routers.backend-https.service=backend-service"
 
   frontend:
     image: menindata-frontend:latest
@@ -36,17 +39,25 @@ services:
       restart_policy:
         condition: on-failure
       labels:
-        # Enable Traefik and define the router for HTTP
         - "traefik.enable=true"
+
+        # --- Middleware for redirecting HTTP to HTTPS ---
+        - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
+
+        # --- HTTP Router for Redirect ---
         - "traefik.http.routers.frontend-http.rule=Host(`menindata.in`) || Host(`www.menindata.in`)"
-        - "traefik.http.routers.frontend-http.entrypoints=web"
-        - "traefik.http.routers.frontend-http.middlewares=redirect-to-https@file" # Redirect HTTP to HTTPS
+        - "traefik.http.routers.frontend-http.entrypoints=http"
+        - "traefik.http.routers.frontend-http.middlewares=https-redirect"
         
-        # Define the router for HTTPS
-        - "traefik.http.routers.frontend.rule=Host(`menindata.in`) || Host(`www.menindata.in`)"
-        - "traefik.http.routers.frontend.entrypoints=websecure" # Corrected entrypoint
-        - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
-        - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+        # --- HTTPS Router ---
+        - "traefik.http.routers.frontend-https.rule=Host(`menindata.in`) || Host(`www.menindata.in`)"
+        - "traefik.http.routers.frontend-https.entrypoints=https"
+        - "traefik.http.routers.frontend-https.tls=true"
+        - "traefik.http.routers.frontend-https.tls.certresolver=letsencrypt"
+        - "traefik.http.services.frontend-service.loadbalancer.server.port=3000" # Service name updated for clarity
+        - "traefik.http.routers.frontend-https.service=frontend-service"
+
 
   mongo:
     image: mongo:6
