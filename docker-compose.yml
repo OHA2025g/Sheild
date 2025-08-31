@@ -1,11 +1,7 @@
-version: "3.9"
-
 services:
   mongo:
     image: mongo:6
     restart: always
-    ports:
-      - "27017:27017"
     volumes:
       - ./data/mongo:/data/db
 
@@ -18,24 +14,19 @@ services:
       - MONGO_URL=mongodb://mongo:27017/mydb
     volumes:
       - ./uploads:/app/uploads
-    expose:
-      - "8001"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.menindata-backend.rule=Host(`menindata.in`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.menindata-backend.entrypoints=websecure"
+      - "traefik.http.services.menindata-backend.loadbalancer.server.port=8001"
 
   frontend:
     build: ./frontend
     restart: always
     depends_on:
       - backend
-    expose:
-      - "3000"
-
-  nginx:
-    image: nginx:alpine
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - frontend
-      - backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.menindata-frontend.rule=Host(`menindata.in`)"
+      - "traefik.http.routers.menindata-frontend.entrypoints=websecure"
+      - "traefik.http.services.menindata-frontend.loadbalancer.server.port=3000"
