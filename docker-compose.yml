@@ -1,50 +1,56 @@
 version: "3.9"
 
 services:
-  mongo:
-    image: mongo:6
-    volumes:
-      - ./data/mongo:/data/db
-    deploy:
-      restart_policy:
-        condition: any
-    networks:
-      - easypanel
-
   backend:
-    image: menindata-backend
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/mydb
-    volumes:
-      - ./uploads:/app/uploads
-    deploy:
-      labels:
-        - traefik.enable=true
-        - traefik.http.routers.menindata-backend.rule=Host(`menindata.in`) && PathPrefix(`/api`)
-        - traefik.http.routers.menindata-backend.entrypoints=websecure
-        - traefik.http.routers.menindata-backend.tls=true
-        - traefik.http.routers.menindata-backend.tls.certresolver=letsencrypt
-        - traefik.http.services.menindata-backend.loadbalancer.server.port=8001
-      restart_policy:
-        condition: any
+    image: menindata-backend:latest
     networks:
       - easypanel
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - DB_NAME=test_database
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - backend_uploads:/app/uploads
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=Host(`api.menindata.in`)
+      - traefik.http.routers.backend.entrypoints=websecure
+      - traefik.http.routers.backend.tls.certresolver=letsencrypt
+      - traefik.http.services.backend.loadbalancer.server.port=5000
 
   frontend:
-    image: menindata-frontend
-    deploy:
-      labels:
-        - traefik.enable=true
-        - traefik.http.routers.menindata-frontend.rule=Host(`menindata.in`)
-        - traefik.http.routers.menindata-frontend.entrypoints=websecure
-        - traefik.http.routers.menindata-frontend.tls=true
-        - traefik.http.routers.menindata-frontend.tls.certresolver=letsencrypt
-        - traefik.http.services.menindata-frontend.loadbalancer.server.port=3000
-      restart_policy:
-        condition: any
+    image: menindata-frontend:latest
     networks:
       - easypanel
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=Host(`menindata.in`,`www.menindata.in`)
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=letsencrypt
+      - traefik.http.services.frontend.loadbalancer.server.port=3000
+
+  mongo:
+    image: mongo:6
+    networks:
+      - easypanel
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - mongo_data:/data/db
 
 networks:
   easypanel:
     external: true
+
+volumes:
+  backend_uploads:
+  mongo_data:
