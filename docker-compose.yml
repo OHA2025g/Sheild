@@ -16,19 +16,20 @@ services:
         condition: on-failure
       labels:
         - "traefik.enable=true"
+        - "traefik.docker.network=easypanel"
 
-        # --- HTTP Router for Redirect ---
+        # --- HTTP Router (will be redirected by middleware) ---
         - "traefik.http.routers.backend-http.rule=Host(`api.menindata.in`)"
         - "traefik.http.routers.backend-http.entrypoints=http"
         - "traefik.http.routers.backend-http.middlewares=https-redirect"
 
-        # --- HTTPS Router ---
+        # --- HTTPS Router (main router) ---
         - "traefik.http.routers.backend-https.rule=Host(`api.menindata.in`)"
         - "traefik.http.routers.backend-https.entrypoints=https"
         - "traefik.http.routers.backend-https.tls=true"
         - "traefik.http.routers.backend-https.tls.certresolver=letsencrypt"
-        - "traefik.http.services.backend-service.loadbalancer.server.port=8001" # Service name updated for clarity
-        - "traefik.http.routers.backend-https.service=backend-service"
+        - "traefik.http.routers.backend-https.service=backend"
+        - "traefik.http.services.backend.loadbalancer.server.port=8001"
 
   frontend:
     image: menindata-frontend:latest
@@ -40,24 +41,24 @@ services:
         condition: on-failure
       labels:
         - "traefik.enable=true"
+        - "traefik.docker.network=easypanel"
 
-        # --- Middleware for redirecting HTTP to HTTPS ---
+        # --- Define the HTTPS redirect middleware once ---
         - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
         - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
 
-        # --- HTTP Router for Redirect ---
+        # --- HTTP Router (will be redirected by middleware) ---
         - "traefik.http.routers.frontend-http.rule=Host(`menindata.in`) || Host(`www.menindata.in`)"
         - "traefik.http.routers.frontend-http.entrypoints=http"
         - "traefik.http.routers.frontend-http.middlewares=https-redirect"
         
-        # --- HTTPS Router ---
+        # --- HTTPS Router (main router) ---
         - "traefik.http.routers.frontend-https.rule=Host(`menindata.in`) || Host(`www.menindata.in`)"
         - "traefik.http.routers.frontend-https.entrypoints=https"
         - "traefik.http.routers.frontend-https.tls=true"
         - "traefik.http.routers.frontend-https.tls.certresolver=letsencrypt"
-        - "traefik.http.services.frontend-service.loadbalancer.server.port=3000" # Service name updated for clarity
-        - "traefik.http.routers.frontend-https.service=frontend-service"
-
+        - "traefik.http.routers.frontend-https.service=frontend"
+        - "traefik.http.services.frontend.loadbalancer.server.port=3000"
 
   mongo:
     image: mongo:6
@@ -77,3 +78,4 @@ networks:
 volumes:
   backend_uploads:
   mongo_data:
+
