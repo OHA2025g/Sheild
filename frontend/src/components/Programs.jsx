@@ -63,32 +63,6 @@ const Programs = () => {
         </div>
       </section>
 
-      {/* Programs Overview - Now Managed by Page Sections */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Programs</h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Program information is now managed through the Advanced Page Management system.
-          </p>
-          <p className="text-gray-500">
-            Add program sections via the admin panel to display detailed program information here.
-          </p>
-        </div>
-      </section>
-
-      {/* Program Features - Now Managed by Page Sections */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">Program Features</h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Feature information is now managed through the Advanced Page Management system.
-          </p>
-          <p className="text-gray-500">
-            Add feature sections via the admin panel to showcase program benefits and highlights.
-          </p>
-        </div>
-      </section>
-
       {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
