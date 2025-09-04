@@ -63,30 +63,6 @@ const Programs = () => {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">Get Involved Today</h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Whether you're looking to develop new skills or support our community programs, 
-            we have opportunities for everyone.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-              <Link to="/contact">
-                <Users className="h-5 w-5 mr-2" />
-                Join Our Programs
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-              <Link to="/contact">
-                <Heart className="h-5 w-5 mr-2" />
-                Become a Volunteer
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
 
       {/* Dynamic Page Sections */}
       {pageSections.length > 0 && (
@@ -152,6 +128,32 @@ const Programs = () => {
           ))}
         </div>
       )}
+
+      {/* Call to Action */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">Get Involved Today</h2>
+          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Whether you're looking to develop new skills or support our community programs, 
+            we have opportunities for everyone.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+              <Link to="/contact">
+                <Users className="h-5 w-5 mr-2" />
+                Join Our Programs
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+              <Link to="/contact">
+                <Heart className="h-5 w-5 mr-2" />
+                Become a Volunteer
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
 
       <Footer />
     </div>
