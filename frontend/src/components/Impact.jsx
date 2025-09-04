@@ -216,6 +216,73 @@ const Impact = () => {
         </div>
       </section>
 
+
+      {/* Dynamic Page Sections */}
+      {pageSections.length > 0 && (
+        <div className="space-y-16">
+          {pageSections.map((section, index) => (
+            <section key={section.id} className="py-16">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                    {section.title}
+                  </h2>
+                </div>
+
+                <div className="space-y-8">
+                  {/* Text Content */}
+                  {section.content.text && (
+                    <div className="prose max-w-none text-lg text-gray-600 leading-relaxed">
+                      <p>{section.content.text}</p>
+                    </div>
+                  )}
+
+                  {/* HTML Content */}
+                  {section.content.html && (
+                    <div 
+                      className="prose max-w-none"
+                      dangerouslySetInnerHTML={{ __html: section.content.html }}
+                    />
+                  )}
+
+                  {/* Featured Image */}
+                  {section.content.image_url && (
+                    <div className="text-center">
+                      <img 
+                        src={section.content.image_url} 
+                        alt={section.title}
+                        className="max-w-full h-auto rounded-lg shadow-lg mx-auto"
+                      />
+                    </div>
+                  )}
+
+                  {/* Dynamic Items */}
+                  {section.content.items && section.content.items.length > 0 && (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {section.content.items.map((item, itemIndex) => (
+                        <div key={itemIndex} className="bg-white p-6 rounded-lg shadow-md">
+                          {item.title && (
+                            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                              {item.title}
+                            </h3>
+                          )}
+                          {item.description && (
+                            <p className="text-gray-600">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </section>
+          ))}
+        </div>
+      )}
+
+      
       {/* Geographic Impact */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -290,70 +357,6 @@ const Impact = () => {
         </div>
       </section>
 
-      {/* Dynamic Page Sections */}
-      {pageSections.length > 0 && (
-        <div className="space-y-16">
-          {pageSections.map((section, index) => (
-            <section key={section.id} className="py-16">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                    {section.title}
-                  </h2>
-                </div>
-
-                <div className="space-y-8">
-                  {/* Text Content */}
-                  {section.content.text && (
-                    <div className="prose max-w-none text-lg text-gray-600 leading-relaxed">
-                      <p>{section.content.text}</p>
-                    </div>
-                  )}
-
-                  {/* HTML Content */}
-                  {section.content.html && (
-                    <div 
-                      className="prose max-w-none"
-                      dangerouslySetInnerHTML={{ __html: section.content.html }}
-                    />
-                  )}
-
-                  {/* Featured Image */}
-                  {section.content.image_url && (
-                    <div className="text-center">
-                      <img 
-                        src={section.content.image_url} 
-                        alt={section.title}
-                        className="max-w-full h-auto rounded-lg shadow-lg mx-auto"
-                      />
-                    </div>
-                  )}
-
-                  {/* Dynamic Items */}
-                  {section.content.items && section.content.items.length > 0 && (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {section.content.items.map((item, itemIndex) => (
-                        <div key={itemIndex} className="bg-white p-6 rounded-lg shadow-md">
-                          {item.title && (
-                            <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                              {item.title}
-                            </h3>
-                          )}
-                          {item.description && (
-                            <p className="text-gray-600">
-                              {item.description}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </section>
-          ))}
-        </div>
-      )}
 
       <Footer />
     </div>
