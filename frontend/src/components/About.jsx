@@ -290,44 +290,6 @@ const About = () => {
       </section>
 
 
-
-      {/* Impact Summary */}
-      <section className="py-20 bg-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-black mb-4">Our Impact Today</h2>
-            <p className="text-xl text-black/80">Lives transformed, communities empowered</p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-black mb-2">
-                {impactStats.youthTrained?.toLocaleString() || 0}+
-              </div>
-              <div className="text-black/70">Youth Trained</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-black mb-2">
-                {impactStats.youthPlaced?.toLocaleString() || 0}+
-              </div>
-              <div className="text-black/70">Youth Placed</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-black mb-2">
-                {impactStats.seniorsSupported?.toLocaleString() || 0}+
-              </div>
-              <div className="text-black/70">Seniors Supported</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-black mb-2">
-                {impactStats.womenEmpowered?.toLocaleString() || 0}+
-              </div>
-              <div className="text-black/70">Women Empowered</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Dynamic Page Sections */}
       {pageSections.length > 0 && (
         <div>
@@ -500,6 +462,43 @@ const About = () => {
           })}
         </div>
       )}
+
+      {/* Impact Summary */}
+      <section className="py-20 bg-yellow-400">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-black mb-4">Our Impact Today</h2>
+            <p className="text-xl text-black/80">Lives transformed, communities empowered</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-black mb-2">
+                {impactStats.youthTrained?.toLocaleString() || 0}+
+              </div>
+              <div className="text-black/70">Youth Trained</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-black mb-2">
+                {impactStats.youthPlaced?.toLocaleString() || 0}+
+              </div>
+              <div className="text-black/70">Youth Placed</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-black mb-2">
+                {impactStats.seniorsSupported?.toLocaleString() || 0}+
+              </div>
+              <div className="text-black/70">Seniors Supported</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-black mb-2">
+                {impactStats.womenEmpowered?.toLocaleString() || 0}+
+              </div>
+              <div className="text-black/70">Women Empowered</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>
