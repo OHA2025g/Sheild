@@ -2864,34 +2864,7 @@ const handleAddBlog = async () => {
                     </CardContent>
                   </Card>
 
-                  {/* Impact Page Management */}
-                  <Card className="hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <CardTitle className="text-lg flex items-center">
-                        <TrendingUp className="h-5 w-5 mr-2 text-green-600" />
-                        Impact Page
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="text-sm text-gray-600 mb-3">
-                        Configure complete page content
-                      </div>
-                      <Button 
-                        size="sm" 
-                        className="w-full bg-green-600 hover:bg-green-700"
-                        onClick={() => {
-                          toast({
-                            title: "Coming Soon", 
-                            description: "Impact page configuration will be available in the next update.",
-                          });
-                        }}
-                      >
-                        <Edit className="h-4 w-4 mr-2" />
-                        Configure Impact
-                      </Button>
-                    </CardContent>
-                  </Card>
-
+  
                   {/* Gallery Page Management */}
                   <Card className="hover:shadow-lg transition-shadow">
                     <CardHeader>
