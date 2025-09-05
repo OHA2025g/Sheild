@@ -7,15 +7,15 @@ import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Badge } from './ui/badge';
 import { useToast } from '../hooks/use-toast';
-import { 
-  Shield, 
-  LogOut, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Users, 
+import {
+  Shield,
+  LogOut,
+  Plus,
+  Edit,
+  Trash2,
+  Users,
   User,
-  FileText, 
+  FileText,
   TrendingUp,
   Calendar,
   Eye,
@@ -51,7 +51,7 @@ const AdminPanel = () => {
     status: 'draft'
   });
   const [loading, setLoading] = useState(false);
-  
+
   // Blog management state
   const [blogPosts, setBlogPosts] = useState([]);
   const [showBlogForm, setShowBlogForm] = useState(false);
@@ -192,13 +192,13 @@ const AdminPanel = () => {
   useEffect(() => {
     const adminToken = localStorage.getItem('adminToken');
     const adminUser = localStorage.getItem('adminUser');
-    
+
     // Check authentication - redirect to login if not authenticated
     if (!adminToken || !adminUser) {
       navigate('/admin');
       return;
     }
-    
+
     // Parse authenticated user data
     const user = JSON.parse(adminUser);
     setCurrentUser(user);
@@ -210,13 +210,13 @@ const AdminPanel = () => {
       // Load impact statistics
       const stats = await api.getImpactStats();
       setImpactStats(stats);
-      
+
       // Load news if on news tab
       if (activeTab === 'news') {
         const newsData = await api.admin.getAllNews();
         setNews(newsData);
       }
-      
+
       // Always load blog posts and site content for the admin
       await loadBlogPosts();
       await loadSiteContent();
@@ -316,7 +316,7 @@ const AdminPanel = () => {
 
   const handleDeleteNews = async (id) => {
     if (!window.confirm('Are you sure you want to delete this news article?')) return;
-    
+
     try {
       await api.admin.deleteNews(id);
       toast({
@@ -366,7 +366,7 @@ const AdminPanel = () => {
     } catch (error) {
       // Handle FastAPI validation errors properly
       let errorMessage = "Failed to update impact statistics.";
-      
+
       if (error.response?.data) {
         if (typeof error.response.data === 'string') {
           errorMessage = error.response.data;
@@ -384,7 +384,7 @@ const AdminPanel = () => {
           errorMessage = error.response.data.message;
         }
       }
-      
+
       toast({
         title: "Error",
         description: errorMessage,
@@ -445,7 +445,7 @@ const AdminPanel = () => {
           description: "Success story created successfully!",
         });
       }
-      
+
       setSuccessStoryForm({
         name: '',
         story: '',
@@ -560,7 +560,7 @@ const AdminPanel = () => {
           description: "Team member created successfully!",
         });
       }
-      
+
       setTeamMemberForm({
         name: '',
         role: '',
@@ -674,7 +674,7 @@ const AdminPanel = () => {
           description: "Gallery item created successfully!",
         });
       }
-      
+
       setGalleryForm({
         title: '',
         description: '',
@@ -856,10 +856,10 @@ const AdminPanel = () => {
         title: "Success",
         description: "Document deleted successfully!",
       });
-      
+
       // Reload the collection data
       await loadCollectionData(collectionName);
-      
+
       // Reload stats to update counts
       await loadDatabaseStats();
       await loadDatabaseCollections();
@@ -923,9 +923,6 @@ const AdminPanel = () => {
     if (activeTab === 'page-management' && currentUser) {
       loadPageContent(selectedPage);
     }
-    if (activeTab === 'pages' && currentUser) {
-      loadGalleryItems();
-    }
   }, [activeTab, currentUser, selectedPage]);
 
 const handleAddBlog = async () => {
@@ -947,15 +944,15 @@ const handleAddBlog = async () => {
 
       // Send the new blog data to the server
       await api.admin.createNews(payload);
-      
+
       toast({
         title: "Success",
         description: "Blog post created successfully!",
       });
-      
+
       cancelBlogEdit(); // Resets and hides the form
       await loadBlogPosts(); // Reloads the list from the database
-      
+
     } catch (error) {
       toast({
         title: "Error",
@@ -982,7 +979,7 @@ const handleAddBlog = async () => {
         ...blogForm,
         tags: blogForm.tags.filter(tag => tag.trim() !== '')
       };
-      
+
       // Send the updated blog data to the server
       await api.admin.updateNews(editingBlog.id, payload);
 
@@ -990,7 +987,7 @@ const handleAddBlog = async () => {
         title: "Success",
         description: "Blog post updated successfully!",
       });
-      
+
       cancelBlogEdit(); // Resets and hides the form
       await loadBlogPosts(); // Reloads the list from the database
 
@@ -1008,7 +1005,7 @@ const handleAddBlog = async () => {
     if (!window.confirm('Are you sure you want to delete this blog post?')) {
       return;
     }
-    
+
     setLoading(true);
     try {
       // Tell the server to delete the blog post
@@ -1030,7 +1027,7 @@ const handleAddBlog = async () => {
     }
     setLoading(false);
   };
-  
+
   const startEditBlog = (blogPost) => {
     setEditingBlog(blogPost);
     setBlogForm({
@@ -1099,13 +1096,13 @@ const handleAddBlog = async () => {
     try {
       // Save to backend
       await api.admin.updateSiteContent(tempSiteContent);
-      
+
       // Update local state
       setSiteContent(tempSiteContent);
       setShowPageContentForm(false);
       setEditingPageSection(null);
       setEditingSubSection(null);
-      
+
       toast({
         title: "Success",
         description: "Page content updated successfully!",
@@ -1129,20 +1126,20 @@ const handleAddBlog = async () => {
         phone: tempContactInfo.phone,
         address: tempContactInfo.address
       };
-      
+
       // Save to backend
       await api.admin.updateContactInfo(contactData);
-      
+
       // Update local state
       setContactInfo(tempContactInfo);
       setShowContactForm(false);
-      
+
       // Also update in site content
       const updatedSiteContent = { ...siteContent };
       if (!updatedSiteContent.contact) updatedSiteContent.contact = {};
       updatedSiteContent.contact.contactInfo = contactData;
       setSiteContent(updatedSiteContent);
-      
+
       toast({
         title: "Success",
         description: "Contact information updated successfully!",
@@ -1150,7 +1147,7 @@ const handleAddBlog = async () => {
     } catch (error) {
       console.error('Failed to save contact info:', error);
       toast({
-        title: "Error", 
+        title: "Error",
         description: "Failed to save contact information. Please try again.",
         variant: "destructive",
       });
@@ -1168,21 +1165,21 @@ const handleAddBlog = async () => {
   const updateSiteContent = (path, value) => {
     const pathArray = path.split('.');
     const newContent = {...tempSiteContent};
-    
+
     let current = newContent;
     for (let i = 0; i < pathArray.length - 1; i++) {
       if (!current[pathArray[i]]) current[pathArray[i]] = {};
       current = current[pathArray[i]];
     }
     current[pathArray[pathArray.length - 1]] = value;
-    
+
     setTempSiteContent(newContent);
   };
 
   const getSiteContentValue = (path) => {
     const pathArray = path.split('.');
     let current = tempSiteContent;
-    
+
     for (const key of pathArray) {
       if (!current || !current[key]) return '';
       current = current[key];
@@ -1196,7 +1193,7 @@ const handleAddBlog = async () => {
       await api.admin.createUser(userForm);
       await loadUsers();
       resetUserForm();
-      
+
       toast({
         title: "Success",
         description: "User created successfully!",
@@ -1222,7 +1219,7 @@ const handleAddBlog = async () => {
       });
       await loadUsers();
       resetUserForm();
-      
+
       toast({
         title: "Success",
         description: "User updated successfully!",
@@ -1242,12 +1239,12 @@ const handleAddBlog = async () => {
     if (!window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
       return;
     }
-    
+
     setLoading(true);
     try {
       await api.admin.deleteUser(userId);
       await loadUsers();
-      
+
       toast({
         title: "Success",
         description: "User deleted successfully!",
@@ -1279,14 +1276,14 @@ const handleAddBlog = async () => {
         current_password: passwordForm.current_password,
         new_password: passwordForm.new_password
       });
-      
+
       setPasswordForm({
         current_password: '',
         new_password: '',
         confirm_password: ''
       });
       setShowPasswordForm(false);
-      
+
       toast({
         title: "Success",
         description: "Password updated successfully!",
@@ -1321,7 +1318,7 @@ const handleAddBlog = async () => {
       await api.admin.updateSiteSettings(tempSiteSettings);
       setSiteSettings(tempSiteSettings);
       setShowSiteSettingsForm(false);
-      
+
       toast({
         title: "Success",
         description: "Site settings updated successfully!",
@@ -1349,7 +1346,7 @@ const handleAddBlog = async () => {
       await api.admin.addDetailedPageSection(pageSectionForm);
       await loadPageContent(selectedPage);
       resetPageSectionForm();
-      
+
       toast({
         title: "Success",
         description: "Page section created successfully!",
@@ -1376,7 +1373,7 @@ const handleAddBlog = async () => {
       });
       await loadPageContent(selectedPage);
       resetPageSectionForm();
-      
+
       toast({
         title: "Success",
         description: "Page section updated successfully!",
@@ -1396,12 +1393,12 @@ const handleAddBlog = async () => {
     if (!window.confirm('Are you sure you want to delete this section? This action cannot be undone.')) {
       return;
     }
-    
+
     setLoading(true);
     try {
       await api.admin.deleteDetailedPageSection(sectionId);
       await loadPageContent(selectedPage);
-      
+
       toast({
         title: "Success",
         description: "Page section deleted successfully!",
@@ -1456,7 +1453,7 @@ const handleAddBlog = async () => {
                 <p className="text-sm text-gray-600">Admin Panel</p>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">Welcome, {currentUser.name}</span>
               <Button
@@ -1529,14 +1526,6 @@ const handleAddBlog = async () => {
                     Gallery Management
                   </Button>
                   <Button
-                    variant={activeTab === 'pages' ? 'default' : 'ghost'}
-                    onClick={() => setActiveTab('pages')}
-                    className="w-full justify-start"
-                  >
-                    <FileText className="h-4 w-4 mr-2" />
-                    Page Management
-                  </Button>
-                  <Button
                     variant={activeTab === 'page-management' ? 'default' : 'ghost'}
                     onClick={() => setActiveTab('page-management')}
                     className="w-full justify-start"
@@ -1588,7 +1577,7 @@ const handleAddBlog = async () => {
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Overview</h2>
                 </div>
-                
+
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <Card>
@@ -1716,7 +1705,7 @@ const handleAddBlog = async () => {
                             required
                           />
                         </div>
-                        
+
                         <div>
                           <label className="text-sm font-medium text-gray-700 mb-2 block">
                             Content *
@@ -1729,7 +1718,7 @@ const handleAddBlog = async () => {
                             rows={6}
                           />
                         </div>
-                        
+
                         <div>
                           <label className="text-sm font-medium text-gray-700 mb-2 block">
                             Status
@@ -1747,7 +1736,7 @@ const handleAddBlog = async () => {
                             </SelectContent>
                           </Select>
                         </div>
-                        
+
                         <div className="flex space-x-3">
                           <Button
                             type="button"
@@ -1783,8 +1772,8 @@ const handleAddBlog = async () => {
                               <h3 className="text-lg font-semibold text-gray-900">{article.title}</h3>
                               <Badge
                                 variant={article.status === 'published' ? 'default' : 'secondary'}
-                                className={article.status === 'published' 
-                                  ? 'bg-green-100 text-green-800' 
+                                className={article.status === 'published'
+                                  ? 'bg-green-100 text-green-800'
                                   : 'bg-yellow-100 text-yellow-800'
                                 }
                               >
@@ -1816,7 +1805,7 @@ const handleAddBlog = async () => {
                       </CardContent>
                     </Card>
                   ))}
-                  
+
                   {news.length === 0 && (
                     <Card>
                       <CardContent className="p-8 text-center">
@@ -1880,7 +1869,7 @@ const handleAddBlog = async () => {
                           </select>
                         </div>
                       </div>
-                      
+
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Excerpt</label>
                         <Textarea
@@ -1950,7 +1939,7 @@ const handleAddBlog = async () => {
                       </div>
 
                       <div className="flex gap-3 pt-4">
-                        <Button 
+                        <Button
                           type="button"
                           onClick={editingBlog ? handleUpdateBlog : handleAddBlog}
                           disabled={loading || !blogForm.title || !blogForm.content}
@@ -2026,7 +2015,7 @@ const handleAddBlog = async () => {
                       </CardContent>
                     </Card>
                   ))}
-                  
+
                   {blogPosts.length === 0 && (
                     <Card>
                       <CardContent className="p-8 text-center">
@@ -2165,7 +2154,7 @@ const handleAddBlog = async () => {
                         <Button variant="outline" onClick={cancelSuccessStoryEdit}>
                           Cancel
                         </Button>
-                        <Button 
+                        <Button
                           onClick={handleSaveSuccessStory}
                           disabled={loading}
                           className="bg-blue-600 hover:bg-blue-700"
@@ -2187,8 +2176,8 @@ const handleAddBlog = async () => {
                             <div className="flex items-center space-x-3 mb-2">
                               <h3 className="text-lg font-semibold text-gray-900">{story.name}</h3>
                               <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                story.is_active !== false 
-                                  ? 'bg-green-100 text-green-800' 
+                                story.is_active !== false
+                                  ? 'bg-green-100 text-green-800'
                                   : 'bg-gray-100 text-gray-600'
                               }`}>
                                 {story.is_active !== false ? 'Active' : 'Inactive'}
@@ -2228,7 +2217,7 @@ const handleAddBlog = async () => {
                       </CardContent>
                     </Card>
                   ))}
-                  
+
                   {successStories.length === 0 && (
                     <Card>
                       <CardContent className="p-8 text-center">
@@ -2338,7 +2327,7 @@ const handleAddBlog = async () => {
                         <Button variant="outline" onClick={cancelTeamMemberEdit}>
                           Cancel
                         </Button>
-                        <Button 
+                        <Button
                           onClick={handleSaveTeamMember}
                           disabled={loading}
                           className="bg-blue-600 hover:bg-blue-700"
@@ -2369,8 +2358,8 @@ const handleAddBlog = async () => {
                               <div className="flex items-center space-x-3 mb-2">
                                 <h3 className="text-lg font-semibold text-gray-900">{member.name}</h3>
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                  member.is_active !== false 
-                                    ? 'bg-green-100 text-green-800' 
+                                  member.is_active !== false
+                                    ? 'bg-green-100 text-green-800'
                                     : 'bg-gray-100 text-gray-600'
                                 }`}>
                                   {member.is_active !== false ? 'Active' : 'Inactive'}
@@ -2403,7 +2392,7 @@ const handleAddBlog = async () => {
                       </CardContent>
                     </Card>
                   ))}
-                  
+
                   {teamMembers.length === 0 && (
                     <Card>
                       <CardContent className="p-8 text-center">
@@ -2446,8 +2435,8 @@ const handleAddBlog = async () => {
                             <div className="flex items-center space-x-3 mb-2">
                               <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
                               <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                item.is_active !== false 
-                                  ? 'bg-green-100 text-green-800' 
+                                item.is_active !== false
+                                  ? 'bg-green-100 text-green-800'
                                   : 'bg-gray-100 text-gray-600'
                               }`}>
                                 {item.is_active !== false ? 'Active' : 'Inactive'}
@@ -2486,7 +2475,7 @@ const handleAddBlog = async () => {
                       </CardContent>
                     </Card>
                   ))}
-                  
+
                   {galleryItems.length === 0 && (
                     <Card>
                       <CardContent className="p-8 text-center">
@@ -2605,7 +2594,7 @@ const handleAddBlog = async () => {
                         <Button variant="outline" onClick={cancelGalleryEdit}>
                           Cancel
                         </Button>
-                        <Button 
+                        <Button
                           onClick={handleSaveGalleryItem}
                           disabled={loading}
                           className="bg-purple-600 hover:bg-purple-700"
@@ -2743,13 +2732,13 @@ const handleAddBlog = async () => {
                                 </td>
                                 <td className="px-6 py-4">
                                   <div className="text-sm text-gray-900 max-w-xs truncate">
-                                    {doc.title || doc.name || doc.email || doc.subject || doc.username || 
-                                     Object.keys(doc).filter(key => !['_id', 'id', 'created_at', 'updated_at', 'password'].includes(key))
-                                       .slice(0, 3).map(key => `${key}: ${doc[key]}`).join(', ') || 'No preview'}
+                                    {doc.title || doc.name || doc.email || doc.subject || doc.username ||
+                                      Object.keys(doc).filter(key => !['_id', 'id', 'created_at', 'updated_at', 'password'].includes(key))
+                                        .slice(0, 3).map(key => `${key}: ${doc[key]}`).join(', ') || 'No preview'}
                                   </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                  {doc.created_at ? new Date(doc.created_at).toLocaleDateString() : 
+                                  {doc.created_at ? new Date(doc.created_at).toLocaleDateString() :
                                    doc.updated_at ? new Date(doc.updated_at).toLocaleDateString() : 'Unknown'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
@@ -2780,7 +2769,7 @@ const handleAddBlog = async () => {
                           </tbody>
                         </table>
                       </div>
-                      
+
                       {collectionData.length === 0 && (
                         <div className="text-center py-8">
                           <Database className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -2799,17 +2788,6 @@ const handleAddBlog = async () => {
                 )}
               </div>
             )}
-
-            {activeTab === 'pages' && (
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-bold text-gray-900">Page Management</h2>
-                  <p className="text-gray-600">Manage configurable sections for all pages</p>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-  
-
 
             {activeTab === 'page-management' && (
               <PageManagement
@@ -2866,7 +2844,7 @@ const handleAddBlog = async () => {
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">Content Management</h2>
                 </div>
-                
+
                 {/* Impact Statistics Management */}
                 <Card>
                   <CardHeader>
@@ -2921,7 +2899,7 @@ const handleAddBlog = async () => {
                       </div>
                     </div>
                     <div className="mt-6">
-                      <Button 
+                      <Button
                         onClick={handleUpdateImpactStats}
                         disabled={loading}
                         className="bg-blue-600 hover:bg-blue-700 text-white"
@@ -2939,7 +2917,7 @@ const handleAddBlog = async () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-600 mb-6">Current contact information displayed across the website:</p>
-                    
+
                     {/* Contact Info Edit Form */}
                     {showContactForm && (
                       <Card className="border-2 border-yellow-200 mb-6">
@@ -2980,7 +2958,7 @@ const handleAddBlog = async () => {
                             />
                           </div>
                           <div className="flex gap-3 pt-4">
-                            <Button 
+                            <Button
                               onClick={handleSaveContactInfo}
                               className="bg-yellow-400 hover:bg-yellow-500 text-black"
                             >
@@ -3001,8 +2979,8 @@ const handleAddBlog = async () => {
                           <span className="font-medium text-gray-700">Email:</span>
                           <span className="ml-2 text-gray-600">{contactInfo.email}</span>
                         </div>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => handleEditContact('email')}
                         >
@@ -3015,8 +2993,8 @@ const handleAddBlog = async () => {
                           <span className="font-medium text-gray-700">Phone:</span>
                           <span className="ml-2 text-gray-600">{contactInfo.phone}</span>
                         </div>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => handleEditContact('phone')}
                         >
@@ -3029,8 +3007,8 @@ const handleAddBlog = async () => {
                           <span className="font-medium text-gray-700">Address:</span>
                           <span className="ml-2 text-gray-600">{contactInfo.address}</span>
                         </div>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => handleEditContact('address')}
                         >
@@ -3049,7 +3027,7 @@ const handleAddBlog = async () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-600 mb-6">Edit content for all pages and sections across the website.</p>
-                    
+
                     {/* Content Edit Form */}
                     {showPageContentForm && (
                       <Card className="border-2 border-blue-200 mb-6">
@@ -3405,9 +3383,9 @@ const handleAddBlog = async () => {
                           )}
 
                           {/* Add more section editors as needed */}
-                          
+
                           <div className="flex gap-3 pt-4">
-                            <Button 
+                            <Button
                               onClick={handleSavePageContent}
                               className="bg-blue-600 hover:bg-blue-700 text-white"
                             >
@@ -3433,8 +3411,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Hero Section</span>
                               <p className="text-sm text-gray-600">Main title, subtitle, description, and buttons</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('homepage', 'hero')}
                             >
@@ -3447,8 +3425,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Programs Section</span>
                               <p className="text-sm text-gray-600">Program cards, titles, and descriptions</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('homepage', 'programs')}
                             >
@@ -3468,8 +3446,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Hero Section</span>
                               <p className="text-sm text-gray-600">About page title and introduction</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('about', 'hero')}
                             >
@@ -3482,8 +3460,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Foundation Story</span>
                               <p className="text-sm text-gray-600">Our story section and highlight box</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('about', 'story')}
                             >
@@ -3496,8 +3474,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Mission Statement</span>
                               <p className="text-sm text-gray-600">Mission content and description</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('about', 'mission')}
                             >
@@ -3510,8 +3488,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Vision Statement</span>
                               <p className="text-sm text-gray-600">Vision content and description</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('about', 'vision')}
                             >
@@ -3531,8 +3509,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Hero Section</span>
                               <p className="text-sm text-gray-600">Programs page title and introduction</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('programs', 'hero')}
                             >
@@ -3552,8 +3530,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Hero Section</span>
                               <p className="text-sm text-gray-600">Impact page title and introduction</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('impact', 'hero')}
                             >
@@ -3573,8 +3551,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Hero Section</span>
                               <p className="text-sm text-gray-600">Gallery page title and introduction</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('gallery', 'hero')}
                             >
@@ -3594,8 +3572,8 @@ const handleAddBlog = async () => {
                               <span className="font-medium">Hero Section</span>
                               <p className="text-sm text-gray-600">Contact page title and introduction</p>
                             </div>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => handleEditPageContent('contact', 'hero')}
                             >
@@ -3609,7 +3587,7 @@ const handleAddBlog = async () => {
                       {/* More sections can be added here */}
                       <div className="bg-green-50 p-4 rounded-lg">
                         <p className="text-green-800 text-sm">
-                          ✅ <strong>Content Management System Complete</strong> - All major page sections are now configurable through this admin panel. 
+                          ✅ <strong>Content Management System Complete</strong> - All major page sections are now configurable through this admin panel.
                           You can edit content for Homepage, About, Programs, Impact, Gallery, and Contact pages. Additional sections can be easily added as needed.
                         </p>
                       </div>
