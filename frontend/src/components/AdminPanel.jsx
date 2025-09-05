@@ -925,6 +925,9 @@ const AdminPanel = () => {
     }
   }, [activeTab, currentUser, selectedPage]);
 
+// src/components/AdminPanel.jsx
+
+// NEW UPDATED FUNCTION
 const handleAddBlog = async () => {
     if (!blogForm.title.trim() || !blogForm.content.trim()) {
       toast({
@@ -942,16 +945,18 @@ const handleAddBlog = async () => {
         tags: blogForm.tags.filter(tag => tag.trim() !== '')
       };
 
-      // Send the new blog data to the server
-      await api.admin.createNews(payload);
+      // 1. Capture the response from the API call
+      const response = await api.admin.createNews(payload);
+      
+      // 2. Use the response to add the new post to the top of your existing list
+      setBlogPosts(prevPosts => [response.news, ...prevPosts]);
 
       toast({
         title: "Success",
         description: "Blog post created successfully!",
       });
 
-      cancelBlogEdit(); // Resets and hides the form
-      await loadBlogPosts(); // Reloads the list from the database
+      cancelBlogEdit(); // This now correctly happens after the state update
 
     } catch (error) {
       toast({
@@ -962,7 +967,7 @@ const handleAddBlog = async () => {
     }
     setLoading(false);
   };
-
+  
   const handleUpdateBlog = async () => {
     if (!blogForm.title.trim() || !blogForm.content.trim()) {
       toast({
