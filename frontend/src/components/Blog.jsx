@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Calendar, User, Clock, Search, Tag, ChevronRight, BookOpen } from 'lucide-react';
+import { Calendar, User, Search, Tag, ChevronRight, BookOpen } from 'lucide-react';
 import { api } from '../api';
 import Header from './Header';
 import Footer from './Footer';
@@ -18,59 +17,60 @@ const Blog = () => {
   useEffect(() => {
     const loadBlogPosts = async () => {
       try {
-        const response = await api.getPublishedNews();
-        setBlogPosts(response.news || []);
+        const response = await api.getPublishedBlogs();
+        setBlogPosts(response || []); // response is already an array
       } catch (error) {
         console.log('No blog posts available');
         setBlogPosts([]);
       }
     };
-    
     loadBlogPosts();
   }, []);
 
-  // Get published blog posts
-  const publishedPosts = blogPosts.filter(post => post.status === 'published');
-  
+  // Get published blog posts only
+  const publishedPosts = blogPosts.filter((post) => post.status === 'published');
+
   // Filter posts based on search and category
-  const filteredPosts = publishedPosts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    
+  const filteredPosts = publishedPosts.filter((post) => {
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
   // Get unique categories
-  const categories = ['All', ...new Set(publishedPosts.map(post => post.category))];
+  const categories = ['All', ...new Set(publishedPosts.map((post) => post.category))];
 
   // Get recent posts for sidebar
   const recentPosts = publishedPosts.slice(0, 3);
 
   // Get all tags
-  const allTags = [...new Set(publishedPosts.flatMap(post => post.tags))];
+  const allTags = [...new Set(publishedPosts.flatMap((post) => post.tags))];
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      
+
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-yellow-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <BookOpen className="h-16 w-16 text-blue-600 mx-auto mb-6" />
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Blog</h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Stories of impact, insights from the field, and updates on our mission to add life to years
+            Stories of impact, insights from the field, and updates on our mission to add life to
+            years
           </p>
         </div>
       </section>
@@ -93,15 +93,16 @@ const Blog = () => {
                   />
                 </div>
                 <div className="flex gap-2 flex-wrap">
-                  {categories.map(category => (
+                  {categories.map((category) => (
                     <Button
                       key={category}
-                      variant={selectedCategory === category ? "default" : "outline"}
+                      variant={selectedCategory === category ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setSelectedCategory(category)}
-                      className={selectedCategory === category 
-                        ? "bg-blue-600 hover:bg-blue-700 text-white" 
-                        : "border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                      className={
+                        selectedCategory === category
+                          ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                          : 'border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white'
                       }
                     >
                       {category}
@@ -115,25 +116,30 @@ const Blog = () => {
             <div className="space-y-8">
               {filteredPosts.length > 0 ? (
                 filteredPosts.map((post) => (
-                  <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                  <Card
+                    key={post.id}
+                    className="overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                  >
                     <div className="md:flex">
-                      <div className="md:w-1/3">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-48 md:h-full object-cover"
-                        />
-                      </div>
+                      {post.image && (
+                        <div className="md:w-1/3">
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full h-48 md:h-full object-cover"
+                          />
+                        </div>
+                      )}
                       <div className="md:w-2/3">
                         <CardHeader>
                           <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
                             <div className="flex items-center">
                               <Calendar className="h-4 w-4 mr-1" />
-                              {formatDate(post.publishDate)}
+                              {post.publishDate ? formatDate(post.publishDate) : 'No date'}
                             </div>
                             <div className="flex items-center">
                               <User className="h-4 w-4 mr-1" />
-                              {post.author}
+                              {post.author || 'Unknown'}
                             </div>
                             <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-200">
                               {post.category}
@@ -144,19 +150,17 @@ const Blog = () => {
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <p className="text-gray-600 mb-4 line-clamp-3">
-                            {post.excerpt}
-                          </p>
+                          <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
                           <div className="flex items-center justify-between">
                             <div className="flex gap-2">
-                              {post.tags.slice(0, 3).map(tag => (
+                              {post.tags.slice(0, 3).map((tag) => (
                                 <Badge key={tag} variant="outline" className="text-xs">
                                   {tag}
                                 </Badge>
                               ))}
                             </div>
-                            <Button 
-                              variant="ghost" 
+                            <Button
+                              variant="ghost"
                               size="sm"
                               className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                             >
@@ -176,19 +180,6 @@ const Blog = () => {
                 </div>
               )}
             </div>
-
-            {/* Pagination (placeholder) */}
-            {filteredPosts.length > 0 && (
-              <div className="mt-12 flex justify-center">
-                <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm">Previous</Button>
-                  <Button variant="default" size="sm" className="bg-blue-600 hover:bg-blue-700">1</Button>
-                  <Button variant="outline" size="sm">2</Button>
-                  <Button variant="outline" size="sm">3</Button>
-                  <Button variant="outline" size="sm">Next</Button>
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Sidebar */}
@@ -201,14 +192,17 @@ const Blog = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {recentPosts.map(post => (
-                      <div key={post.id} className="border-b border-gray-200 last:border-0 pb-4 last:pb-0">
+                    {recentPosts.map((post) => (
+                      <div
+                        key={post.id}
+                        className="border-b border-gray-200 last:border-0 pb-4 last:pb-0"
+                      >
                         <h4 className="font-semibold text-sm mb-1 hover:text-blue-600 cursor-pointer transition-colors">
                           {post.title}
                         </h4>
                         <div className="flex items-center text-xs text-gray-500">
                           <Calendar className="h-3 w-3 mr-1" />
-                          {formatDate(post.publishDate)}
+                          {post.publishDate ? formatDate(post.publishDate) : 'No date'}
                         </div>
                       </div>
                     ))}
@@ -223,25 +217,29 @@ const Blog = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {categories.filter(cat => cat !== 'All').map(category => {
-                      const count = publishedPosts.filter(post => post.category === category).length;
-                      return (
-                        <button
-                          key={category}
-                          onClick={() => setSelectedCategory(category)}
-                          className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                            selectedCategory === category
-                              ? 'bg-blue-100 text-blue-700'
-                              : 'hover:bg-gray-100'
-                          }`}
-                        >
-                          <div className="flex justify-between items-center">
-                            <span>{category}</span>
-                            <span className="text-gray-500">({count})</span>
-                          </div>
-                        </button>
-                      );
-                    })}
+                    {categories
+                      .filter((cat) => cat !== 'All')
+                      .map((category) => {
+                        const count = publishedPosts.filter(
+                          (post) => post.category === category
+                        ).length;
+                        return (
+                          <button
+                            key={category}
+                            onClick={() => setSelectedCategory(category)}
+                            className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                              selectedCategory === category
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'hover:bg-gray-100'
+                            }`}
+                          >
+                            <div className="flex justify-between items-center">
+                              <span>{category}</span>
+                              <span className="text-gray-500">({count})</span>
+                            </div>
+                          </button>
+                        );
+                      })}
                   </div>
                 </CardContent>
               </Card>
@@ -253,7 +251,7 @@ const Blog = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">
-                    {allTags.map(tag => (
+                    {allTags.map((tag) => (
                       <Badge
                         key={tag}
                         variant="outline"
