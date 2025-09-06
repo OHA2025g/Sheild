@@ -117,6 +117,29 @@ async def get_published_news():
         logger.error(f"Failed to fetch news: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch news")
 
+# BLOG ENDPOINTS
+
+@api_router.get("/blogs")
+async def get_published_blogs():
+    """Get all published blogs (public endpoint)"""
+    try:
+        blogs_cursor = db.blogs.find({"status": "published"}).sort("created_at", -1)
+        blogs_list = []
+        async for blog_item in blogs_cursor:
+            blogs_list.append({
+                "id": blog_item.get("id", str(blog_item["_id"])),
+                "title": blog_item["title"],
+                "content": blog_item["content"],
+                "author": blog_item["author"],
+                "date": blog_item["created_at"].isoformat() if blog_item.get("created_at") else None,
+                "status": blog_item["status"]
+            })
+        return blogs_list
+    except Exception as e:
+        logger.error(f"Failed to fetch blogs: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch blogs")
+
+
 @api_router.get("/impact-stats")
 async def get_impact_stats():
     """Get current impact statistics"""
@@ -322,6 +345,80 @@ async def get_all_news(current_user: dict = Depends(admin_required)):
         logger.error(f"Failed to fetch all news: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch news")
 
+@api_router.post("/admin/blogs", response_model=MessageResponse)
+async def create_blog(blog_data: BlogCreate, current_user: dict = Depends(admin_required)):
+    """Create a new blog post (admin only)"""
+    try:
+        blog = Blog(**blog_data.dict(), author=current_user["username"])
+        await db.blogs.insert_one(blog.dict())
+        logger.info(f"Blog created: {blog.title}")
+        return MessageResponse(message="Blog created successfully!")
+    except Exception as e:
+        logger.error(f"Failed to create blog: {e}")
+        raise HTTPException(status_code=500, detail="Failed to create blog")
+
+
+@api_router.get("/admin/blogs")
+async def get_all_blogs(current_user: dict = Depends(admin_required)):
+    """Get all blogs (including drafts) for admin"""
+    try:
+        blogs_cursor = db.blogs.find({}).sort("created_at", -1)
+        blogs_list = []
+        async for blog_item in blogs_cursor:
+            blogs_list.append({
+                "id": blog_item.get("id", str(blog_item["_id"])),
+                "title": blog_item["title"],
+                "content": blog_item["content"],
+                "status": blog_item["status"],
+                "author": blog_item["author"],
+                "date": blog_item["created_at"].isoformat(),
+                "updated_at": blog_item.get("updated_at", blog_item["created_at"]).isoformat()
+            })
+        return blogs_list
+    except Exception as e:
+        logger.error(f"Failed to fetch blogs: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch blogs")
+
+
+@api_router.put("/admin/blogs/{blog_id}", response_model=MessageResponse)
+async def update_blog(blog_id: str, blog_data: BlogUpdate, current_user: dict = Depends(admin_required)):
+    """Update a blog post (admin only)"""
+    try:
+        update_data = {k: v for k, v in blog_data.dict().items() if v is not None}
+        update_data["updated_at"] = datetime.utcnow()
+
+        result = await db.blogs.update_one(
+            {"id": blog_id},
+            {"$set": update_data}
+        )
+
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Blog not found")
+
+        logger.info(f"Blog updated: {blog_id}")
+        return MessageResponse(message="Blog updated successfully!")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to update blog: {e}")
+        raise HTTPException(status_code=500, detail="Failed to update blog")
+
+
+@api_router.delete("/admin/blogs/{blog_id}", response_model=MessageResponse)
+async def delete_blog(blog_id: str, current_user: dict = Depends(admin_required)):
+    """Delete a blog post (admin only)"""
+    try:
+        result = await db.blogs.delete_one({"id": blog_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Blog not found")
+
+        logger.info(f"Blog deleted: {blog_id}")
+        return MessageResponse(message="Blog deleted successfully!")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to delete blog: {e}")
+        raise HTTPException(status_code=500, detail="Failed to delete blog")
 @api_router.put("/admin/impact-stats", response_model=MessageResponse)
 async def update_impact_stats(stats_data: ImpactStatsUpdate, current_user: dict = Depends(admin_required)):
     """Update impact statistics"""
