@@ -127,12 +127,16 @@ async def get_published_blogs():
         blogs_list = []
         async for blog_item in blogs_cursor:
             blogs_list.append({
-                "id": blog_item.get("id", str(blog_item["_id"])),
-                "title": blog_item["title"],
-                "content": blog_item["content"],
-                "author": blog_item["author"],
-                "date": blog_item["created_at"].isoformat() if blog_item.get("created_at") else None,
-                "status": blog_item["status"]
+            "id": blog_item.get("id", str(blog_item["_id"])),
+            "title": blog_item["title"],
+            "excerpt": blog_item.get("excerpt", ""),
+            "content": blog_item["content"],
+            "category": blog_item.get("category", ""),
+            "tags": blog_item.get("tags", []),
+            "image": blog_item.get("image"),
+            "author": blog_item["author"],
+            "publishDate": blog_item["created_at"].isoformat() if blog_item.get("created_at") else None,
+            "status": blog_item["status"
             })
         return blogs_list
     except Exception as e:
@@ -366,13 +370,17 @@ async def get_all_blogs(current_user: dict = Depends(admin_required)):
         blogs_list = []
         async for blog_item in blogs_cursor:
             blogs_list.append({
-                "id": blog_item.get("id", str(blog_item["_id"])),
-                "title": blog_item["title"],
-                "content": blog_item["content"],
-                "status": blog_item["status"],
-                "author": blog_item["author"],
-                "date": blog_item["created_at"].isoformat(),
-                "updated_at": blog_item.get("updated_at", blog_item["created_at"]).isoformat()
+            "id": blog_item.get("id", str(blog_item["_id"])),
+            "title": blog_item["title"],
+            "excerpt": blog_item.get("excerpt", ""),
+            "content": blog_item["content"],
+            "category": blog_item.get("category", ""),
+            "tags": blog_item.get("tags", []),
+            "image": blog_item.get("image"),
+            "status": blog_item["status"],
+            "author": blog_item["author"],
+            "date": blog_item["created_at"].isoformat(),
+            "updated_at": blog_item.get("updated_at", blog_item["created_at"]).isoformat()
             })
         return blogs_list
     except Exception as e:
@@ -419,6 +427,7 @@ async def delete_blog(blog_id: str, current_user: dict = Depends(admin_required)
     except Exception as e:
         logger.error(f"Failed to delete blog: {e}")
         raise HTTPException(status_code=500, detail="Failed to delete blog")
+    
 @api_router.put("/admin/impact-stats", response_model=MessageResponse)
 async def update_impact_stats(stats_data: ImpactStatsUpdate, current_user: dict = Depends(admin_required)):
     """Update impact statistics"""
