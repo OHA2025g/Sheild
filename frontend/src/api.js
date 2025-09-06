@@ -67,6 +67,12 @@ export const api = {
     return response.data;
   },
 
+    // Get published blogs
+  getPublishedBlogs: async () => {
+    const response = await apiClient.get('/blogs');
+    return response.data;
+  },
+
   // Get impact statistics
   getImpactStats: async () => {
     const response = await apiClient.get('/impact-stats');
@@ -130,6 +136,30 @@ export const api = {
     // Delete news
     deleteNews: async (id) => {
       const response = await apiClient.delete(`/admin/news/${id}`);
+      return response.data;
+    },
+
+    // Get all blogs (including drafts)
+    getAllBlogs: async () => {
+      const response = await apiClient.get('/admin/blogs');
+      return response.data;
+    },
+
+    // Create a blog
+    createBlog: async (blogData) => {
+      const response = await apiClient.post('/admin/blogs', blogData);
+      return response.data;
+    },
+
+    // Update a blog
+    updateBlog: async (id, blogData) => {
+      const response = await apiClient.put(`/admin/blogs/${id}`, blogData);
+      return response.data;
+    },
+
+    // Delete a blog
+    deleteBlog: async (id) => {
+      const response = await apiClient.delete(`/admin/blogs/${id}`);
       return response.data;
     },
 
