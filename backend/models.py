@@ -59,6 +59,10 @@ class Newsletter(BaseModel):
 class NewsCreate(BaseModel):
     title: str = Field(..., min_length=5, max_length=200)
     content: str = Field(..., min_length=20, max_length=5000)
+    excerpt: str = Field(..., min_length=20, max_length=300)
+    category: str = Field(..., min_length=3, max_length=50)
+    tags: List[str] = []
+    image: Optional[str] = None  # URL of the blog image
     status: str = Field(default="draft")
 
     @validator('status')
@@ -70,6 +74,10 @@ class NewsCreate(BaseModel):
 class NewsUpdate(BaseModel):
     title: Optional[str] = Field(None, min_length=5, max_length=200)
     content: Optional[str] = Field(None, min_length=20, max_length=5000)
+    excerpt: Optional[str] = Field(None, min_length=20, max_length=300)
+    category: Optional[str] = None
+    tags: Optional[List[str]] = None
+    image: Optional[str] = None
     status: Optional[str] = None
 
     @validator('status')
@@ -82,6 +90,10 @@ class News(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
     content: str
+    excerpt: str
+    category: str
+    tags: List[str] = []
+    image: Optional[str] = None
     status: str
     author: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
