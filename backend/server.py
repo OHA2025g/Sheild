@@ -107,7 +107,11 @@ async def get_published_news():
             news_list.append({
                 "id": news_item.get("id", str(news_item["_id"])),
                 "title": news_item["title"],
+                "excerpt": news_item.get("excerpt", ""),
                 "content": news_item["content"],
+                "category": news_item.get("category", ""),
+                "tags": news_item.get("tags", []),
+                "image": news_item.get("image"),
                 "author": news_item["author"],
                 "date": news_item["created_at"].isoformat() if news_item.get("created_at") else None,
                 "status": news_item["status"]
@@ -336,13 +340,17 @@ async def get_all_news(current_user: dict = Depends(admin_required)):
         news_list = []
         async for news_item in news_cursor:
             news_list.append({
-                "id": news_item.get("id", str(news_item["_id"])),
-                "title": news_item["title"],
-                "content": news_item["content"],
-                "status": news_item["status"],
-                "author": news_item["author"],
-                "date": news_item["created_at"].isoformat(),
-                "updated_at": news_item.get("updated_at", news_item["created_at"]).isoformat()
+            "id": news_item.get("id", str(news_item["_id"])),
+            "title": news_item["title"],
+            "excerpt": news_item.get("excerpt", ""),
+            "content": news_item["content"],
+            "category": news_item.get("category", ""),
+            "tags": news_item.get("tags", []),
+            "image": news_item.get("image"),
+            "status": news_item["status"],
+            "author": news_item["author"],
+            "date": news_item["created_at"].isoformat(),
+            "updated_at": news_item.get("updated_at", news_item["created_at"]).isoformat()
             })
         return news_list
     except Exception as e:
