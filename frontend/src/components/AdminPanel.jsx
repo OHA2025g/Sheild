@@ -397,8 +397,8 @@ const AdminPanel = () => {
   // Blog Management Functions
   const loadBlogPosts = async () => {
     try {
-      const data = await api.admin.getAllNews();
-      setBlogPosts(data.news || []);
+      const data = await api.admin.getAllBlogs();
+      setBlogPosts(data || []);
     } catch (error) {
       console.log('Error loading blog posts');
       setBlogPosts([]);
@@ -946,10 +946,10 @@ const handleAddBlog = async () => {
       };
 
       // 1. Capture the response from the API call
-      const response = await api.admin.createNews(payload);
+      const response = await api.admin.createBlog(payload);
       
       // 2. Use the response to add the new post to the top of your existing list
-      setBlogPosts(prevPosts => [response.news, ...prevPosts]);
+      setBlogPosts(prevPosts => [response, ...prevPosts]);
 
       toast({
         title: "Success",
@@ -986,7 +986,7 @@ const handleAddBlog = async () => {
       };
 
       // Send the updated blog data to the server
-      await api.admin.updateNews(editingBlog.id, payload);
+      await api.admin.updateBlog(editingBlog.id, payload);
 
       toast({
         title: "Success",
@@ -1014,7 +1014,7 @@ const handleAddBlog = async () => {
     setLoading(true);
     try {
       // Tell the server to delete the blog post
-      await api.admin.deleteNews(blogId);
+      await api.admin.deleteBlog(blogId);
 
       toast({
         title: "Success",
