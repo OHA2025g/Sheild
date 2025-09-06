@@ -136,7 +136,7 @@ async def get_published_blogs():
             "image": blog_item.get("image"),
             "author": blog_item["author"],
             "publishDate": blog_item["created_at"].isoformat() if blog_item.get("created_at") else None,
-            "status": blog_item["status"
+            "status": blog_item["status"]
             })
         return blogs_list
     except Exception as e:
