@@ -87,6 +87,39 @@ class News(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+# Blog Models
+class BlogCreate(BaseModel):
+    title: str = Field(..., min_length=5, max_length=200)
+    content: str = Field(..., min_length=20, max_length=5000)
+    status: str = Field(default="draft")
+
+    @validator('status')
+    def validate_status(cls, v):
+        if v not in ['draft', 'published']:
+            raise ValueError('Status must be either draft or published')
+        return v
+
+class BlogUpdate(BaseModel):
+    title: Optional[str] = Field(None, min_length=5, max_length=200)
+    content: Optional[str] = Field(None, min_length=20, max_length=5000)
+    status: Optional[str] = None
+
+    @validator('status')
+    def validate_status(cls, v):
+        if v is not None and v not in ['draft', 'published']:
+            raise ValueError('Status must be either draft or published')
+        return v
+
+class Blog(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    content: str
+    status: str
+    author: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
 # Admin Models
 class AdminLogin(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
