@@ -14,7 +14,7 @@ const News = () => {
     const loadNews = async () => {
       try {
         const response = await api.getPublishedNews();
-        setNewsArticles(response.news || []);
+        setNewsArticles(response || []);
       } catch (error) {
         console.log('No news articles available');
         setNewsArticles([]);
