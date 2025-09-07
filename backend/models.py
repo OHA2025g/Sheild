@@ -81,6 +81,7 @@ class NewsUpdate(BaseModel):
 class News(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
+    content: str
     status: str
     author: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
