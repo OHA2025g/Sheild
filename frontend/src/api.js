@@ -73,6 +73,11 @@ export const api = {
     return response.data;
   },
 
+  getBlogById: async (id) => {
+  const response = await apiClient.get(`/blogs/${id}`);
+  return response.data;
+  },
+
   // Get impact statistics
   getImpactStats: async () => {
     const response = await apiClient.get('/impact-stats');
