@@ -30,6 +30,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminPanel />} />
           <Route path="/toast-test" element={<ToastTest />} />
           <Route path="/news" element={<News />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
