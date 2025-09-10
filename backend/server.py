@@ -143,6 +143,33 @@ async def get_published_blogs():
         logger.error(f"Failed to fetch blogs: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch blogs")
 
+@api_router.get("/blogs/{blog_id}")
+async def get_blog(blog_id: str):
+    """Get a single published blog by ID (public endpoint)"""
+    try:
+        blog_item = await db.blogs.find_one({"id": blog_id, "status": "published"})
+        if not blog_item:
+            raise HTTPException(status_code=404, detail="Blog not found")
+
+        return {
+            "id": blog_item.get("id", str(blog_item["_id"])),
+            "title": blog_item["title"],
+            "excerpt": blog_item.get("excerpt", ""),
+            "content": blog_item["content"],
+            "category": blog_item.get("category", ""),
+            "tags": blog_item.get("tags", []),
+            "image": blog_item.get("image"),
+            "author": blog_item["author"],
+            "publishDate": blog_item["created_at"].isoformat() if blog_item.get("created_at") else None,
+            "status": blog_item["status"]
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to fetch blog {blog_id}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch blog")
+
+
 
 @api_router.get("/impact-stats")
 async def get_impact_stats():
