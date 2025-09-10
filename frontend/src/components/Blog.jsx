@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Calendar, User, Search, Tag, ChevronRight, BookOpen } from 'lucide-react';
 import { api } from '../api';
+import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -69,8 +70,7 @@ const Blog = () => {
           <BookOpen className="h-16 w-16 text-blue-600 mx-auto mb-6" />
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Blog</h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Stories of impact, insights from the field, and updates on our mission to add life to
-            years
+            Stories of impact, insights from the field, and updates on our mission to add life to years
           </p>
         </div>
       </section>
@@ -146,7 +146,7 @@ const Blog = () => {
                             </Badge>
                           </div>
                           <CardTitle className="text-2xl hover:text-blue-600 transition-colors cursor-pointer">
-                            {post.title}
+                            <Link to={`/blog/${post.id}`}>{post.title}</Link>
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -163,8 +163,11 @@ const Blog = () => {
                               variant="ghost"
                               size="sm"
                               className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                              asChild
                             >
-                              Read More <ChevronRight className="h-4 w-4 ml-1" />
+                              <Link to={`/blog/${post.id}`}>
+                                Read More <ChevronRight className="h-4 w-4 ml-1" />
+                              </Link>
                             </Button>
                           </div>
                         </CardContent>
@@ -198,7 +201,7 @@ const Blog = () => {
                         className="border-b border-gray-200 last:border-0 pb-4 last:pb-0"
                       >
                         <h4 className="font-semibold text-sm mb-1 hover:text-blue-600 cursor-pointer transition-colors">
-                          {post.title}
+                          <Link to={`/blog/${post.id}`}>{post.title}</Link>
                         </h4>
                         <div className="flex items-center text-xs text-gray-500">
                           <Calendar className="h-3 w-3 mr-1" />
