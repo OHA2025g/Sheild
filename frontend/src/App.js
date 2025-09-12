@@ -13,6 +13,7 @@ import AdminPanel from "./components/AdminPanel";
 import AdminLogin from "./components/AdminLogin";
 import ToastTest from "./components/ToastTest";
 import News from "./components/News";
+import BlogDetail from "./components/BlogDetail";
 
 function App() {
   return (
