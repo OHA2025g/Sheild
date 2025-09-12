@@ -117,6 +117,30 @@ async def get_published_news():
         logger.error(f"Failed to fetch news: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch news")
 
+@api_router.get("/news/{news_id}")
+async def get_news_by_id(news_id: str):
+    """Get a single published news article by ID"""
+    try:
+        news_item = await db.news.find_one({"id": news_id})
+        if not news_item:
+            raise HTTPException(status_code=404, detail="News not found")
+
+        return {
+            "id": news_item.get("id", str(news_item["_id"])),
+            "title": news_item["title"],
+            "content": news_item["content"],
+            "author": news_item.get("author", "Unknown"),
+            "status": news_item["status"],
+            "date": news_item["created_at"].isoformat() if news_item.get("created_at") else None,
+        }
+    except HTTPException:
+        raise  # re-raise so FastAPI sends the correct response
+    except Exception as e:
+        logger.error(f"Failed to fetch news by id {news_id}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch news article")
+
+
+
 # BLOG ENDPOINTS
 
 @api_router.get("/blogs")
