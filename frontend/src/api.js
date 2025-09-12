@@ -67,6 +67,11 @@ export const api = {
     return response.data;
   },
 
+  getNewsById: async (id) => {
+  const response = await apiClient.get(`/news/${id}`);
+  return response.data;
+}
+
     // Get published blogs
   getPublishedBlogs: async () => {
     const response = await apiClient.get('/blogs');
