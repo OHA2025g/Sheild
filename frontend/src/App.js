@@ -14,6 +14,7 @@ import AdminLogin from "./components/AdminLogin";
 import ToastTest from "./components/ToastTest";
 import News from "./components/News";
 import BlogDetail from "./components/BlogDetail";
+import NewsDetail from "./components/NewsDetail";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminPanel />} />
           <Route path="/toast-test" element={<ToastTest />} />
           <Route path="/news" element={<News />} />
+          <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/blog/:id" element={<BlogDetail />} />
         </Routes>
       </BrowserRouter>
