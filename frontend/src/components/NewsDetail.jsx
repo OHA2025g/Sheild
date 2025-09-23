@@ -63,8 +63,8 @@ const NewsDetail = () => {
           </span>
         </div>
 
-        <div className="prose max-w-none">
-          <p>{news.content}</p>
+        <div className="prose max-w-none whitespace-pre-line text-gray-800 leading-relaxed">
+          {news.content}
         </div>
       </div>
 
