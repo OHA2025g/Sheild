@@ -73,9 +73,9 @@ const BlogDetail = () => {
 
         {/* Blog content with formatting */}
         <div
-          className="prose prose-lg max-w-none text-gray-800 leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: blog.content }}
-        />
+          className="prose max-w-none whitespace-pre-line">
+          {blog.content}
+        </div>
 
         {/* Tags */}
         {blog.tags && blog.tags.length > 0 && (
