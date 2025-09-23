@@ -42,11 +42,15 @@ const BlogDetail = () => {
       <Header />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Back button */}
         <Link to="/blog" className="flex items-center text-blue-600 hover:underline mb-6">
           <ArrowLeft className="h-4 w-4 mr-2" /> Back to Blog
         </Link>
 
+        {/* Title */}
         <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
+
+        {/* Meta info */}
         <div className="flex items-center gap-4 text-sm text-gray-600 mb-6">
           <div className="flex items-center">
             <Calendar className="h-4 w-4 mr-1" />
@@ -58,6 +62,7 @@ const BlogDetail = () => {
           </div>
         </div>
 
+        {/* Blog image */}
         {blog.image && (
           <img
             src={blog.image}
@@ -66,8 +71,13 @@ const BlogDetail = () => {
           />
         )}
 
-        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: blog.content }} />
+        {/* Blog content with formatting */}
+        <div
+          className="prose prose-lg max-w-none text-gray-800 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+        />
 
+        {/* Tags */}
         {blog.tags && blog.tags.length > 0 && (
           <div className="mt-6 flex gap-2 flex-wrap">
             {blog.tags.map((tag) => (
