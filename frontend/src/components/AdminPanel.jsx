@@ -30,7 +30,8 @@ import {
   Settings,
   Layout
 } from 'lucide-react';
-
+import ReactQuill from "react-quill"; 
+import "react-quill/dist/quill.snow.css";
 import { api } from '../api';
 import UserManagement from './admin-sections/UserManagement';
 import SiteSettings from './admin-sections/SiteSettings';
