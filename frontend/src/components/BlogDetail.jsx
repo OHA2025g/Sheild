@@ -74,7 +74,7 @@ const BlogDetail = () => {
         {/* Blog content with formatting */}
         <div 
           className="prose max-w-none" 
-          dangerouslySetInnerHTML={{ __html: blog.content }} 
+          dangerouslySetInnerHTML={{ __html: blog?.content || "" }} 
         />
 
         {/* Tags */}
