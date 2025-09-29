@@ -1921,12 +1921,22 @@ const handleAddBlog = async () => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label>
-                        <Textarea
+                        {/* Replace Textarea with ReactQuill */}
+                        <ReactQuill
+                          theme="snow"
                           value={blogForm.content}
-                          onChange={(e) => setBlogForm({...blogForm, content: e.target.value})}
+                          onChange={(value) => setBlogForm({...blogForm, content: value})}
                           placeholder="Write your blog post content here..."
-                          rows={10}
-                          required
+                          className="bg-white" // Add a background color for visibility
+                          modules={{
+                            toolbar: [
+                              [{ 'header': [1, 2, 3, false] }],
+                              ['bold', 'italic', 'underline', 'strike'],
+                              [{'list': 'ordered'}, {'list': 'bullet'}],
+                              ['link', 'image'],
+                              ['clean']
+                            ],
+                          }}
                         />
                       </div>
 

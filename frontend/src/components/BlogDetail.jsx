@@ -4,6 +4,7 @@ import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
 import { api } from '../api';
 import Header from './Header';
 import Footer from './Footer';
+import DOMPurify from 'dompurify';
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -73,9 +74,9 @@ const BlogDetail = () => {
 
         {/* Blog content with formatting */}
         <div
-          className="prose max-w-none whitespace-pre-line">
-          {blog.content}
-        </div>
+          className="prose max-w-none"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
+        />
 
         {/* Tags */}
         {blog.tags && blog.tags.length > 0 && (
