@@ -46,8 +46,6 @@ import ReactQuillProps = ReactQuill.ReactQuillProps;
 import UnprivilegedEditor = ReactQuill.UnprivilegedEditor;
 interface ReactQuillState {
     generation: number;
-    value: Value;
-    selection: Range;
 }
 declare class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
     static displayName: string;
@@ -62,6 +60,8 @@ declare class ReactQuill extends React.Component<ReactQuillProps, ReactQuillStat
     state: ReactQuillState;
     editor?: Quill;
     editingArea?: React.ReactInstance | null;
+    value: Value;
+    selection: Range;
     lastDeltaChangeSet?: DeltaStatic;
     regenerationSnapshot?: {
         delta: DeltaStatic;
