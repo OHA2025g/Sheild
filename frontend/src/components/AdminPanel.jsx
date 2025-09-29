@@ -1924,7 +1924,7 @@ const handleAddBlog = async () => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label> 
                         <ReactQuill 
                           theme="snow" 
-                          value={blogForm.content} 
+                          value={blogForm.content || ""}
                           onChange={(value) => setBlogForm({...blogForm, content: value})} 
                           placeholder="Write your blog post content here..." 
                           className="bg-white" 
