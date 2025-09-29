@@ -1919,16 +1919,15 @@ const handleAddBlog = async () => {
                         />
                       </div>
 
-                      {/* Replace Textarea with ReactQuill */} 
-                      <div> 
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label> 
-                        <ReactQuill 
-                          theme="snow" 
-                          value={blogForm.content || ""}
-                          onChange={(value) => setBlogForm({...blogForm, content: value})} 
-                          placeholder="Write your blog post content here..." 
-                          className="bg-white" 
-                          /> 
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label>
+                        <Textarea
+                          value={blogForm.content}
+                          onChange={(e) => setBlogForm({...blogForm, content: e.target.value})}
+                          placeholder="Write your blog post content here..."
+                          rows={10}
+                          required
+                        />
                       </div>
 
                       <div className="grid md:grid-cols-2 gap-4">
