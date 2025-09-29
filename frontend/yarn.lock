@@ -2779,7 +2779,7 @@
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.14.0.tgz#d8b60cecf62f2db0fb68e5e006077b9178b85de5"
   integrity sha512-eOunJqu0K1923aExK6y8p6fsihYEn/BYuQ4g0CxAAgFc4b/ZLN4CrsRZ55srTdqoiLzU2B2evC+apEIxprEzkQ==
 
-"@types/quill@^1.3.10":
+"@types/quill@1.3.10":
   version "1.3.10"
   resolved "https://registry.yarnpkg.com/@types/quill/-/quill-1.3.10.tgz#dc1f7b6587f7ee94bdf5291bc92289f6f0497613"
   integrity sha512-IhW3fPW+bkt9MLNlycw8u8fWb7oO7W5URC9MfZYHBlA24rex9rs23D5DETChu1zvgVdc5ka64ICjJOgQMr6Shw==
@@ -4167,6 +4167,14 @@ cra-template@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/cra-template/-/cra-template-1.2.0.tgz#7bb339b1f762cc0901665dba8260333e13547e4e"
   integrity sha512-06WBUmTq79NvqU91Y9OPCXv/ENy/UkUmQS0lBrOYCl/4f4l67idnGbBARDGLopCHfff6pf6UftcFRWHg+CVfRw==
+
+create-react-class@^15.6.0:
+  version "15.7.0"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.7.0.tgz#7499d7ca2e69bb51d13faf59bd04f0c65a1d6c1e"
+  integrity sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==
+  dependencies:
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
 
 create-require@^1.1.0:
   version "1.1.1"
@@ -7388,7 +7396,7 @@ lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-loose-envify@^1.4.0:
+loose-envify@^1.3.1, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -8691,7 +8699,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.8.1:
+prop-types@^15.5.10, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -8844,6 +8852,11 @@ react-dev-utils@^12.0.1:
     strip-ansi "^6.0.1"
     text-table "^0.2.0"
 
+react-dom-factories@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.2.tgz#eb7705c4db36fb501b3aa38ff759616aa0ff96e0"
+  integrity sha512-Bmic2N3oKji7vw9qjDr2dmwHvOATbFSnKy7EH0uT/qjvzIUsiXp6Yquk72LJ3WfMtRnq3ujXMMo7GsJeLPfFWw==
+
 react-dom@^19.0.0:
   version "19.1.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-19.1.1.tgz#2daa9ff7f3ae384aeb30e76d5ee38c046dc89893"
@@ -8876,14 +8889,17 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
-react-quill@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-quill/-/react-quill-2.0.0.tgz#67a0100f58f96a246af240c9fa6841b363b3e017"
-  integrity sha512-4qQtv1FtCfLgoD3PXAur5RyxuUbPXQGOHgTlFie3jtxp43mXDtzCKaOgQ3mLyZfi1PUlyjycfivKelFhy13QUg==
+react-quill@1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/react-quill/-/react-quill-1.3.5.tgz#8c4ad759da03365b17c79c6c52afa9772259844e"
+  integrity sha512-/W/rNCW+6QpGz8yQ9tFK5Ka/h/No1RqrcOOvCIOR092OiKzRFlU2xbPEwiP3Wgy/Dx13pi1YhjReDMX/5uotJg==
   dependencies:
-    "@types/quill" "^1.3.10"
+    "@types/quill" "1.3.10"
+    create-react-class "^15.6.0"
     lodash "^4.17.4"
+    prop-types "^15.5.10"
     quill "^1.3.7"
+    react-dom-factories "^1.0.0"
 
 react-refresh@^0.11.0:
   version "0.11.0"
