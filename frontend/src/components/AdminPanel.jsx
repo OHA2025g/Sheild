@@ -30,8 +30,6 @@ import {
   Settings,
   Layout
 } from 'lucide-react';
-import ReactQuill from "react-quill"; 
-import "react-quill/dist/quill.snow.css";
 import TiptapEditor from './TiptapEditor';
 import { api } from '../api';
 import UserManagement from './admin-sections/UserManagement';
