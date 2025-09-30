@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import ReactQuill from "react-quill"; 
 import "react-quill/dist/quill.snow.css";
+import TiptapEditor from './TiptapEditor';
 import { api } from '../api';
 import UserManagement from './admin-sections/UserManagement';
 import SiteSettings from './admin-sections/SiteSettings';
@@ -1921,22 +1922,9 @@ const handleAddBlog = async () => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label>
-                        {/* Replace Textarea with ReactQuill */}
-                        <ReactQuill
-                          theme="snow"
-                          value={blogForm.content}
-                          onChange={(value) => setBlogForm({...blogForm, content: value})}
-                          placeholder="Write your blog post content here..."
-                          className="bg-white" // Add a background color for visibility
-                          modules={{
-                            toolbar: [
-                              [{ 'header': [1, 2, 3, false] }],
-                              ['bold', 'italic', 'underline', 'strike'],
-                              [{'list': 'ordered'}, {'list': 'bullet'}],
-                              ['link', 'image'],
-                              ['clean']
-                            ],
-                          }}
+                        <TiptapEditor
+                          content={blogForm.content}
+                          onContentChange={(newContent) => setBlogForm({ ...blogForm, content: newContent })}
                         />
                       </div>
 
