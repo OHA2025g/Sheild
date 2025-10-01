@@ -1136,7 +1136,9 @@ const handleAddBlog = async () => {
       await api.admin.updateContactInfo(contactData);
 
       // Update local state
-      setContactInfo(tempContactInfo);
+      const refreshedData = await api.admin.getContactInfo();
+      setContactInfo(refreshedData);
+      setTempContactInfo(refreshedData);
       setShowContactForm(false);
 
       // Also update in site content
