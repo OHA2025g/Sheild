@@ -193,10 +193,14 @@ const Contact = () => {
               <CardContent className="pt-8">
                 <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Visit Us</h3>
-                <p className="text-gray-600">
+                {/*               <p className="text-gray-600">
                   A-202, Runwal Pinnacle<br />
                   Thane West, Maharashtra 400604<br />
                   Mumbai, India
+                </p> */}
+                {/* This now pulls the address from the database */}
+                <p className="text-gray-600 whitespace-pre-line">
+                  {siteContent.contact?.contactInfo?.address || "Default Address"}
                 </p>
               </CardContent>
             </Card>
@@ -205,11 +209,14 @@ const Contact = () => {
               <CardContent className="pt-8">
                 <Phone className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Call Us</h3>
-                <p className="text-gray-600">
+                {/*<p className="text-gray-600">
                   <strong>Main Office:</strong><br />
                   +91 98765 43210<br />
                   <strong>Programs:</strong><br />
                   +91 98765 43211
+                </p>*/}
+                <p className="text-gray-600">
+                  {siteContent.contact?.contactInfo?.phone || "loading..."}
                 </p>
               </CardContent>
             </Card>
@@ -218,11 +225,14 @@ const Contact = () => {
               <CardContent className="pt-8">
                 <Mail className="h-12 w-12 text-blue-600 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Email Us</h3>
-                <p className="text-gray-600">
+                {/*<p className="text-gray-600">
                   <strong>General:</strong><br />
                   info@shieldfoundation.org<br />
                   <strong>Programs:</strong><br />
                   programs@shieldfoundation.org
+                </p>*/}
+                <p className="text-gray-600">
+                  {siteContent.contact?.contactInfo?.email || "loading..."}
                 </p>
               </CardContent>
             </Card>
