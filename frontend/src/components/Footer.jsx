@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from '../hooks/use-toast';
 import { Heart, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
-import { api, getSiteSettings } from '../api';
+import { api, getSiteSettings, getPublicSiteContent } from '../api';
 
 const Footer = () => {
   const { toast } = useToast();
@@ -18,6 +18,9 @@ const Footer = () => {
     linkedin_url: null
   });
 
+  // 2. ADD A NEW STATE VARIABLE FOR THE CONTENT
+  const [siteContent, setSiteContent] = useState({});
+  
   useEffect(() => {
     const loadSiteSettings = async () => {
       try {
@@ -29,6 +32,19 @@ const Footer = () => {
     };
     
     loadSiteSettings();
+
+    // 3. ADD THIS LOGIC TO FETCH THE CONTACT INFO
+    const loadContent = async () => {
+      try {
+        const backendContent = await getPublicSiteContent();
+        if (backendContent.content) {
+          setSiteContent(backendContent.content);
+        }
+      } catch (error) {
+        console.log('Footer could not load site content');
+      }
+    };
+    loadContent();
   }, []);
 
   const handleNewsletterSubmit = async (e) => {
@@ -96,15 +112,24 @@ const Footer = () => {
             <div className="space-y-2 mb-6">
               <div className="flex items-center text-sm">
                 <Mail className="h-4 w-4 text-yellow-400 mr-2" />
-                <span className="text-gray-300">shieldfoundation@gmail.com</span>
+                <span className="text-gray-300">{/*shieldfoundation@gmail.comI*/}
+                  {/* This now pulls the email from the database */}
+                  {siteContent.contact?.contactInfo?.email || "loading..."}
+                </span>
               </div>
               <div className="flex items-center text-sm">
                 <Phone className="h-4 w-4 text-yellow-400 mr-2" />
-                <span className="text-gray-300">+91 98334 06288</span>
+                <span className="text-gray-300">{/*+91 98334 06288*/}
+                  {/* This now pulls the phone from the database */}
+                  {siteContent.contact?.contactInfo?.phone || "loading..."}
+                </span>
               </div>
               <div className="flex items-center text-sm">
                 <MapPin className="h-4 w-4 text-yellow-400 mr-2" />
-                <span className="text-gray-300">Dharavi, Mumbai, Maharashtra</span>
+                <span className="text-gray-300">{/*Dharavi, Mumbai, Maharashtra*/}
+                  {/* This now pulls the address from the database */}
+                  {siteContent.contact?.contactInfo?.address || "loading..."}
+                </span>
               </div>
             </div>
 
