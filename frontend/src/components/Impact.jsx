@@ -182,11 +182,11 @@ const Impact = () => {
             {successStories.length > 0 ? (
               successStories.map((story, index) => (
                 <Card key={index} className="border-0 shadow-lg overflow-hidden">
-                  <div className="relative w-full h-48 overflow-hidden">
+                  <div className="relative w-full h-48 flex items-center justify-center bg-gray-100 overflow-hidden">
                     <img 
                       src={story.image} 
                       alt={story.name}
-                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      className="max-h-full max-w-full object-contain"
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
