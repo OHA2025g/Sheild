@@ -5,6 +5,7 @@ import { Calendar, User, ArrowLeft } from "lucide-react";
 import { api } from "../api";
 import Header from "./Header";
 import Footer from "./Footer";
+import DOMPurify from 'dompurify';
 
 const NewsDetail = () => {
   const { id } = useParams();
@@ -63,9 +64,10 @@ const NewsDetail = () => {
           </span>
         </div>
 
-        <div className="prose max-w-none whitespace-pre-line text-gray-800 leading-relaxed">
-          {news.content}
-        </div>
+        <div
+          className="prose prose-lg max-w-none"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(news.content) }}
+        />
       </div>
 
       <Footer />
