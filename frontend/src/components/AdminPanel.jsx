@@ -1712,9 +1712,7 @@ const handleAddBlog = async () => {
                         </div>
 
                         <div>
-                          <label className="text-sm font-medium text-gray-700 mb-2 block">
-                            Content *
-                          </label>
+                          <label className="text-sm font-medium text-gray-700 mb-2 block">Content *</label>
                           <TiptapEditor
                             content={newsForm.content}
                             onContentChange={(newContent) => setNewsForm({ ...newsForm, content: newContent })}
