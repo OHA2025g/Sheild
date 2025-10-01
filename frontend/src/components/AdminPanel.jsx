@@ -1078,9 +1078,9 @@ const handleAddBlog = async () => {
   };
 
   // Contact Information Management Functions
-  const handleEditContact = (field) => {
+  const handleEditContact = () => {
     setTempContactInfo(contactInfo);
-    setShowContactForm(field);
+    setShowContactForm(true);
   };
 
   const handleCancelContactEdit = () => {
@@ -2984,7 +2984,7 @@ const handleAddBlog = async () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handleEditContact('email')}
+                          onClick={handleEditContact}
                         >
                           <Edit className="h-4 w-4 mr-2" />
                           Edit
@@ -2998,7 +2998,7 @@ const handleAddBlog = async () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handleEditContact('phone')}
+                          onClick={handleEditContact}
                         >
                           <Edit className="h-4 w-4 mr-2" />
                           Edit
@@ -3012,7 +3012,7 @@ const handleAddBlog = async () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handleEditContact('address')}
+                          onClick={handleEditContact}
                         >
                           <Edit className="h-4 w-4 mr-2" />
                           Edit
