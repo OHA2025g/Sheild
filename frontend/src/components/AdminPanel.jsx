@@ -1780,7 +1780,11 @@ const handleAddBlog = async () => {
                                 {article.status}
                               </Badge>
                             </div>
-                            <p className="text-gray-600 mb-3 line-clamp-2">{article.content}</p>
+                            {/*<p className="text-gray-600 mb-3 line-clamp-2">{article.content}</p>*/
+                            <div
+                              className="text-gray-600 mb-3 line-clamp-2 prose"
+                               dangerouslySetInnerHTML={{ __html: article.content }}
+                            />
                             <p className="text-sm text-gray-500">
                               Published on {new Date(article.date).toLocaleDateString()} by {article.author}
                             </p>
