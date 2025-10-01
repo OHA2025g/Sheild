@@ -1715,12 +1715,9 @@ const handleAddBlog = async () => {
                           <label className="text-sm font-medium text-gray-700 mb-2 block">
                             Content *
                           </label>
-                          <Textarea
-                            placeholder="Enter article content"
-                            value={newsForm.content}
-                            onChange={(e) => setNewsForm({...newsForm, content: e.target.value})}
-                            required
-                            rows={6}
+                          <TiptapEditor
+                            content={newsForm.content}
+                            onContentChange={(newContent) => setNewsForm({ ...newsForm, content: newContent })}
                           />
                         </div>
 
