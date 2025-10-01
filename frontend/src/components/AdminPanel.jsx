@@ -1785,10 +1785,9 @@ const handleAddBlog = async () => {
                               className="text-gray-600 mb-3 line-clamp-2 prose"
                                dangerouslySetInnerHTML={{ __html: article.content }}
                             />
-                            <p className="text-sm text-gray-500">
+                            <div className="text-sm text-gray-500">
                               Published on {new Date(article.date).toLocaleDateString()} by {article.author}
-                            </p>
-                          </div>
+                            </div>
                           <div className="flex space-x-2 ml-4">
                             <Button
                               size="sm"
