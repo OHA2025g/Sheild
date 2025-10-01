@@ -1788,6 +1788,7 @@ const handleAddBlog = async () => {
                             <div className="text-sm text-gray-500">
                               Published on {new Date(article.date).toLocaleDateString()} by {article.author}
                             </div>
+                          </div>
                           <div className="flex space-x-2 ml-4">
                             <Button
                               size="sm"
