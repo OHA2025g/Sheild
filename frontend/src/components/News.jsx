@@ -78,7 +78,11 @@ const News = () => {
                 </Link>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4 line-clamp-3">{article.content}</p>
+                {/*<p className="text-gray-600 mb-4 line-clamp-3">{article.content}</p>*/}
+                <div
+                  className="text-gray-600 mb-4 line-clamp-3 prose"
+                   dangerouslySetInnerHTML={{ __html: article.content }}
+                />
                 <Link to={`/news/${article.id}`}>
                   <Button
                     variant="ghost"
