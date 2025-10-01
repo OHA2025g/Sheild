@@ -74,7 +74,7 @@ const BlogDetail = () => {
 
         {/* Blog content with formatting */}
         <div
-          className="prose prose-lg max-w-none"
+          className="prose max-w-none"
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
         />
 
