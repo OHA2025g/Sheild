@@ -38,21 +38,6 @@ async def init_database():
         # Initialize impact stats if doesn't exist
         stats_collection = db.impact_stats
         existing_stats = await stats_collection.find_one()
-
-        content_collection = db.site_content
-        existing_content = await content_collection.find_one({"_id": "contact_info"})
-        
-        if not existing_content:
-            initial_content = {
-                "_id": "contact_info", # Use a fixed ID to easily find it later
-                "email": "shieldfoundation@gmail.com",
-                "phone": "+91 98334 06286",
-                "address": "Dharavi, Mumbai, Maharashtra",
-                "updated_at": datetime.utcnow(),
-                "updated_by": "system"
-            }
-            await content_collection.insert_one(initial_content)
-            logger.info("Initial site content with contact info created")
         
         if not existing_stats:
             initial_stats = {
