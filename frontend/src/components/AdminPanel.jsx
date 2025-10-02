@@ -1446,10 +1446,6 @@ const handleAddBlog = async () => {
     return <div>Loading...</div>;
   }
 
-  if (isLoading) {
-    return <div>Loading contact information...</div>;
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
