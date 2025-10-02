@@ -68,16 +68,13 @@ const AdminPanel = () => {
 
   // Contact Information Management state
   const [showContactForm, setShowContactForm] = useState(false);
-  {/*const [contactInfo, setContactInfo] = useState({
+  const [contactInfo, setContactInfo] = useState({
     email: 'shieldfoundation@gmail.com',
     phone: '+91 98334 06288',
     address: 'Dharavi, Mumbai, Maharashtra'
   });
-  const [tempContactInfo, setTempContactInfo] = useState(contactInfo);*/}
-  const [contactInfo, setContactInfo] = useState(null);
-  const [tempContactInfo, setTempContactInfo] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [tempContactInfo, setTempContactInfo] = useState(contactInfo);
+  
   // Success Stories Management state
   const [successStories, setSuccessStories] = useState([]);
   const [showSuccessStoryForm, setShowSuccessStoryForm] = useState(false);
@@ -1079,22 +1076,6 @@ const handleAddBlog = async () => {
       tags: blogForm.tags.filter(tag => tag !== tagToRemove)
     });
   };
-
-  useEffect(() => {
-    const fetchContactInfo = async () => {
-      try {
-        const data = await api.admin.getContactInfo();
-        setContactInfo(data);
-        setTempContactInfo(data);
-      } catch (error) {
-        console.error("Failed to fetch contact info:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchContactInfo();
-  }, []);
   
   // Contact Information Management Functions
   const handleEditContact = () => {
@@ -1467,22 +1448,6 @@ const handleAddBlog = async () => {
 
   if (isLoading) {
     return <div>Loading contact information...</div>;
-  }
-
-  // If loading is done but there's no data, show a "Create" button
-  if (!contactInfo) {
-    return (
-      <div className="p-8 text-center">
-        <h3 className="text-xl font-semibold mb-2">No Contact Information Found</h3>
-        <p className="text-gray-600 mb-4">
-          It looks like you haven't set up your contact details yet.
-        </p>
-        <Button onClick={handleEditContact}>
-          <PlusCircle className="h-4 w-4 mr-2" />
-          Create Contact Info
-        </Button>
-      </div>
-    );
   }
 
   return (
