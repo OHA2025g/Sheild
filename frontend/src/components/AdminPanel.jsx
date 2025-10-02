@@ -68,15 +68,12 @@ const AdminPanel = () => {
 
   // Contact Information Management state
   const [showContactForm, setShowContactForm] = useState(false);
-  {/*const [contactInfo, setContactInfo] = useState({
+  const [contactInfo, setContactInfo] = useState({
     email: 'shieldfoundation@gmail.com',
     phone: '+91 98334 06288',
     address: 'Dharavi, Mumbai, Maharashtra'
   });
-  const [tempContactInfo, setTempContactInfo] = useState(contactInfo);*/}
-  const [contactInfo, setContactInfo] = useState(null);
-  const [tempContactInfo, setTempContactInfo] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [tempContactInfo, setTempContactInfo] = useState(contactInfo);
 
   // Success Stories Management state
   const [successStories, setSuccessStories] = useState([]);
@@ -1080,22 +1077,6 @@ const handleAddBlog = async () => {
     });
   };
 
-  useEffect(() => {
-    const fetchContactInfo = async () => {
-      try {
-        const data = await api.admin.getContactInfo();
-        setContactInfo(data);
-        setTempContactInfo(data);
-      } catch (error) {
-        console.error("Failed to fetch contact info:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchContactInfo();
-  }, []);
-
   // Contact Information Management Functions
   const handleEditContact = () => {
     setTempContactInfo(contactInfo);
@@ -1463,14 +1444,6 @@ const handleAddBlog = async () => {
 
   if (!currentUser) {
     return <div>Loading...</div>;
-  }
-
-  if (isLoading) {
-    return <div>Loading contact information...</div>;
-  }
-
-  if (!contactInfo) {
-    return <div>Error: Could not load contact information.</div>;
   }
 
   return (
