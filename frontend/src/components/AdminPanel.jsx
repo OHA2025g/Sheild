@@ -1469,9 +1469,20 @@ const handleAddBlog = async () => {
     return <div>Loading contact information...</div>;
   }
 
-  // Optional but recommended: Handle errors if data couldn't be fetched
+  // If loading is done but there's no data, show a "Create" button
   if (!contactInfo) {
-    return <div>Error: Could not load contact information. Please try again.</div>;
+    return (
+      <div className="p-8 text-center">
+        <h3 className="text-xl font-semibold mb-2">No Contact Information Found</h3>
+        <p className="text-gray-600 mb-4">
+          It looks like you haven't set up your contact details yet.
+        </p>
+        <Button onClick={handleEditContact}>
+          <PlusCircle className="h-4 w-4 mr-2" />
+          Create Contact Info
+        </Button>
+      </div>
+    );
   }
 
   return (
