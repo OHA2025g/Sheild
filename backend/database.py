@@ -46,7 +46,7 @@ async def init_database():
             initial_content = {
                 "_id": "contact_info", # Use a fixed ID to easily find it later
                 "email": "shieldfoundation@gmail.com",
-                "phone": "+91 98334 06288",
+                "phone": "+91 98334 06286",
                 "address": "Dharavi, Mumbai, Maharashtra",
                 "updated_at": datetime.utcnow(),
                 "updated_by": "system"
