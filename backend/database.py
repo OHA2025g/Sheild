@@ -26,8 +26,8 @@ async def init_database():
         if not existing_admin:
             from auth import hash_password
             admin_user = {
-                "username": "Divyansh",
-                "password": hash_password("Divyansh@5713"),
+                "username": "admin",
+                "password": hash_password("admin123"),
                 "name": "Shield Admin",
                 "role": "super_admin",
                 "created_at": datetime.utcnow()
