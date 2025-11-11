@@ -6,6 +6,7 @@ import os
 import logging
 from pathlib import Path
 import asyncio
+import uuid
 
 # Import custom modules
 from models import *
@@ -691,12 +692,15 @@ async def get_leadership_team():
     try:
         members = await db.leadership_team.find(
             {"is_active": True}, 
-            sort=[("order", 1), ("created_at", -1)]
+            sort=[("category", 1), ("order", 1), ("created_at", -1)]
         ).to_list(length=None)
         
         # Convert ObjectId to string for JSON serialization
         for member in members:
             member["_id"] = str(member["_id"])
+            # Ensure category exists (for backward compatibility)
+            if "category" not in member:
+                member["category"] = "Trustee"
             
         return {"members": members}
     except Exception as e:
@@ -707,11 +711,14 @@ async def get_leadership_team():
 async def get_admin_leadership_team(current_user: dict = Depends(admin_required)):
     """Get all leadership team members for admin management"""
     try:
-        members = await db.leadership_team.find({}, sort=[("order", 1), ("created_at", -1)]).to_list(length=None)
+        members = await db.leadership_team.find({}, sort=[("category", 1), ("order", 1), ("created_at", -1)]).to_list(length=None)
         
         # Convert ObjectId to string for JSON serialization
         for member in members:
             member["_id"] = str(member["_id"])
+            # Ensure category exists (for backward compatibility)
+            if "category" not in member:
+                member["category"] = "Trustee"
             
         return {"members": members}
     except Exception as e:
