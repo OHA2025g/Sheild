@@ -268,24 +268,67 @@ const About = () => {
             <p className="text-xl text-gray-600">Dedicated professionals committed to our mission</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-8">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-32 h-32 rounded-full mx-auto mb-6 object-cover"
-                  />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h3>
-                  <Badge className="mb-4 bg-yellow-400 text-black hover:bg-yellow-500">
-                    {member.role}
-                  </Badge>
-                  <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {/* Group team members by category */}
+          {(() => {
+            // Group team members by category
+            const groupedMembers = teamMembers.reduce((acc, member) => {
+              const category = member.category || 'Trustee';
+              if (!acc[category]) {
+                acc[category] = [];
+              }
+              acc[category].push(member);
+              return acc;
+            }, {});
+
+            // Define category order and display names
+            const categoryOrder = ['Trustee', 'Programs Team', 'Admin & Finance'];
+            const categoryDisplayNames = {
+              'Trustee': 'Trustee',
+              'Programs Team': 'Programs Team',
+              'Admin & Finance': 'Admin & Finance'
+            };
+
+            return categoryOrder.map((categoryKey) => {
+              const members = groupedMembers[categoryKey] || [];
+              if (members.length === 0) return null;
+
+              return (
+                <div key={categoryKey} className="mb-16">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                    {categoryDisplayNames[categoryKey]}
+                  </h3>
+                  <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    {members.map((member, index) => (
+                      <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
+                        <CardContent className="p-8">
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-32 h-32 rounded-full mx-auto mb-6 object-cover"
+                            onError={(e) => {
+                              e.target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face";
+                            }}
+                          />
+                          <h3 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h3>
+                          <Badge className="mb-4 bg-yellow-400 text-black hover:bg-yellow-500">
+                            {member.role}
+                          </Badge>
+                          <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              );
+            });
+          })()}
+
+          {/* Fallback if no team members */}
+          {teamMembers.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">No team members available at this time.</p>
+            </div>
+          )}
         </div>
       </section>
 
