@@ -99,6 +99,7 @@ const AdminPanel = () => {
     role: '',
     image: '',
     description: '',
+    category: 'Trustee',
     order: 0,
     is_active: true
   });
@@ -536,7 +537,7 @@ const AdminPanel = () => {
   };
 
   const handleSaveTeamMember = async () => {
-    if (!teamMemberForm.name.trim() || !teamMemberForm.role.trim()) {
+    if (!teamMemberForm.name.trim() || !teamMemberForm.role.trim() || !teamMemberForm.category.trim()) {
       toast({
         title: "Error",
         description: "Please fill in all required fields.",
@@ -566,6 +567,7 @@ const AdminPanel = () => {
         role: '',
         image: '',
         description: '',
+        category: 'Trustee',
         order: 0,
         is_active: true
       });
@@ -588,6 +590,7 @@ const AdminPanel = () => {
       role: member.role,
       image: member.image,
       description: member.description,
+      category: member.category || 'Trustee',
       order: member.order || 0,
       is_active: member.is_active !== false
     });
@@ -623,6 +626,7 @@ const AdminPanel = () => {
       role: '',
       image: '',
       description: '',
+      category: 'Trustee',
       order: 0,
       is_active: true
     });
@@ -2279,6 +2283,23 @@ const handleAddBlog = async () => {
                       </div>
 
                       <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                        <Select
+                          value={teamMemberForm.category}
+                          onValueChange={(value) => setTeamMemberForm({...teamMemberForm, category: value})}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Trustee">Trustee</SelectItem>
+                            <SelectItem value="Programs Team">Programs Team</SelectItem>
+                            <SelectItem value="Admin & Finance">Admin & Finance</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Profile Image URL *</label>
                         <Input
                           value={teamMemberForm.image}
@@ -2365,6 +2386,9 @@ const handleAddBlog = async () => {
                                     : 'bg-gray-100 text-gray-600'
                                 }`}>
                                   {member.is_active !== false ? 'Active' : 'Inactive'}
+                                </span>
+                                <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                  {member.category || 'Trustee'}
                                 </span>
                               </div>
                               <p className="text-blue-600 font-medium mb-2">{member.role}</p>
