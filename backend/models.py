@@ -224,6 +224,7 @@ class TeamMember(BaseModel):
     role: str
     image: str
     description: str
+    category: str = "Trustee"  # Trustee, Programs Team, Admin & Finance
     order: int = 0
     is_active: bool = True
     created_at: Optional[datetime] = None
@@ -234,6 +235,7 @@ class TeamMemberCreate(BaseModel):
     role: str
     image: str
     description: str
+    category: str = "Trustee"  # Trustee, Programs Team, Admin & Finance
     order: int = 0
     is_active: bool = True
 
@@ -242,6 +244,7 @@ class TeamMemberUpdate(BaseModel):
     role: Optional[str] = None
     image: Optional[str] = None
     description: Optional[str] = None
+    category: Optional[str] = None
     order: Optional[int] = None
     is_active: Optional[bool] = None
 
