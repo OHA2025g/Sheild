@@ -573,10 +573,10 @@ const AdminPanel = () => {
   };
 
   const handleSaveTeamMember = async () => {
-    if (!teamMemberForm.name.trim() || !teamMemberForm.role.trim() || !teamMemberForm.category.trim()) {
+    if (!teamMemberForm.name.trim() || !teamMemberForm.role.trim() || !teamMemberForm.image.trim() || !teamMemberForm.category.trim()) {
       showAlert({
         title: "Error",
-        description: "Please fill in all required fields.",
+        description: "Please fill in all required fields (Name, Role, Image, and Category).",
         variant: "destructive",
       });
       return;
@@ -2595,13 +2595,12 @@ const handleAddBlog = async () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                         <Textarea
                           value={teamMemberForm.description}
                           onChange={(e) => setTeamMemberForm({...teamMemberForm, description: e.target.value})}
-                          placeholder="Brief description of the team member's background and expertise..."
+                          placeholder="Brief description of the team member's background and expertise (optional)..."
                           rows={3}
-                          required
                         />
                       </div>
 
