@@ -313,7 +313,9 @@ const About = () => {
                           <Badge className="mb-4 bg-yellow-400 text-black hover:bg-yellow-500">
                             {member.role}
                           </Badge>
-                          <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
+                          {member.description && (
+                            <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
+                          )}
                         </CardContent>
                       </Card>
                     ))}
