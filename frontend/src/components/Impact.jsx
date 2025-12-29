@@ -293,42 +293,32 @@ const Impact = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center border-0 shadow-lg">
-              <CardContent className="pt-8">
-                <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Central Mumbai</h3>
-                <p className="text-gray-600 mb-4">
-                  Primary operations center serving Dharavi, Mahim, and surrounding communities
-                </p>
-                <div className="text-2xl font-bold text-blue-600">5,000+</div>
-                <div className="text-sm text-gray-500">Beneficiaries</div>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 shadow-lg">
-              <CardContent className="pt-8">
-                <MapPin className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Western Suburbs</h3>
-                <p className="text-gray-600 mb-4">
-                  Extended outreach programs in Andheri, Borivali, and adjacent areas
-                </p>
-                <div className="text-2xl font-bold text-yellow-600">2,500+</div>
-                <div className="text-sm text-gray-500">Beneficiaries</div>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 shadow-lg">
-              <CardContent className="pt-8">
-                <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Eastern Districts</h3>
-                <p className="text-gray-600 mb-4">
-                  Community partnerships extending our impact to underserved eastern regions
-                </p>
-                <div className="text-2xl font-bold text-blue-600">1,000+</div>
-                <div className="text-sm text-gray-500">Beneficiaries</div>
-              </CardContent>
-            </Card>
+          <div className="mb-12">
+            <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Presence of Our Centers & Services</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                  <MapPin className="h-6 w-6 text-blue-600 flex-shrink-0" />
+                  <span className="text-gray-900 font-medium">Matunga Labour Camp</span>
+                </div>
+                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                  <MapPin className="h-6 w-6 text-blue-600 flex-shrink-0" />
+                  <span className="text-gray-900 font-medium">Dharavi</span>
+                </div>
+                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                  <MapPin className="h-6 w-6 text-blue-600 flex-shrink-0" />
+                  <span className="text-gray-900 font-medium">Chembur</span>
+                </div>
+                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                  <MapPin className="h-6 w-6 text-blue-600 flex-shrink-0" />
+                  <span className="text-gray-900 font-medium">Mankhurd</span>
+                </div>
+                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                  <MapPin className="h-6 w-6 text-blue-600 flex-shrink-0" />
+                  <span className="text-gray-900 font-medium">Dhaba, Nagpur</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="mt-12 text-center">
@@ -344,7 +334,7 @@ const Impact = () => {
                   <div className="text-gray-600">Communities Served</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-blue-600">6+</div>
+                  <div className="text-3xl font-bold text-blue-600">16+</div>
                   <div className="text-gray-600">Years of Service</div>
                 </div>
                 <div>
