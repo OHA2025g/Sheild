@@ -293,6 +293,44 @@ const Impact = () => {
             </p>
           </div>
 
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <Card className="text-center border-0 shadow-lg">
+              <CardContent className="pt-8">
+                <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Central Mumbai</h3>
+                <p className="text-gray-600 mb-4">
+                  Primary operations center serving Dharavi, Mahim, and surrounding communities
+                </p>
+                <div className="text-2xl font-bold text-blue-600">5,000+</div>
+                <div className="text-sm text-gray-500">Beneficiaries</div>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center border-0 shadow-lg">
+              <CardContent className="pt-8">
+                <MapPin className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Western Suburbs</h3>
+                <p className="text-gray-600 mb-4">
+                  Extended outreach programs in Andheri, Borivali, and adjacent areas
+                </p>
+                <div className="text-2xl font-bold text-yellow-600">2,500+</div>
+                <div className="text-sm text-gray-500">Beneficiaries</div>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center border-0 shadow-lg">
+              <CardContent className="pt-8">
+                <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Eastern Districts</h3>
+                <p className="text-gray-600 mb-4">
+                  Community partnerships extending our impact to underserved eastern regions
+                </p>
+                <div className="text-2xl font-bold text-blue-600">1,000+</div>
+                <div className="text-sm text-gray-500">Beneficiaries</div>
+              </CardContent>
+            </Card>
+          </div>
+
           <div className="mb-12">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
               <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Presence of Our Centers & Services</h3>
