@@ -86,7 +86,7 @@ const PageManagement = ({
   };
 
   const handleAddItem = () => {
-    const newItem = { title: '', description: '', order: pageContent[selectedPage]?.length || 0 };
+    const newItem = { title: '', description: '', image_url: '', order: pageContent[selectedPage]?.length || 0 };
     handleContentChange('items', [...(pageSectionForm.content.items || []), newItem]);
   };
 
@@ -420,6 +420,27 @@ const PageManagement = ({
                         className="text-sm"
                       />
                     </div>
+                    <div className="mt-2">
+                      <Label className="text-xs text-gray-600">Image URL</Label>
+                      <Input
+                        value={item.image_url || ''}
+                        onChange={(e) => handleUpdateItem(index, 'image_url', e.target.value)}
+                        placeholder="https://example.com/image.jpg"
+                        className="text-sm"
+                      />
+                    </div>
+                    {item.image_url && (
+                      <div className="mt-2">
+                        <img 
+                          src={item.image_url} 
+                          alt="Preview" 
+                          className="w-full h-32 object-cover rounded border"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
