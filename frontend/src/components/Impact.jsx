@@ -267,12 +267,12 @@ const Impact = () => {
                         return (
                         <div key={itemIndex} className="bg-white p-6 rounded-lg shadow-md">
                           {item.image_url && item.image_url.trim() !== '' && (
-                            <div className="mb-4 overflow-hidden rounded-lg">
+                            <div className="mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4" style={{ minHeight: '160px', maxHeight: '160px' }}>
                               <img 
                                 src={item.image_url} 
                                 alt={item.title || 'Item image'}
-                                className="w-full h-48 object-cover rounded-lg"
-                                style={{ display: 'block' }}
+                                className="max-w-full max-h-full object-contain"
+                                style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '132px' }}
                                 onError={(e) => {
                                   console.error('Failed to load image:', item.image_url, 'for item:', item.title);
                                   e.target.style.display = 'none';
