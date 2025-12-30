@@ -484,8 +484,30 @@ const About = () => {
                     {/* Dynamic Items */}
                     {section.content.items && section.content.items.length > 0 && (
                       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {section.content.items.map((item, itemIndex) => (
+                        {section.content.items.map((item, itemIndex) => {
+                          // Debug: log item data
+                          if (item.image_url) {
+                            console.log('Item with image:', { index: itemIndex, title: item.title, image_url: item.image_url });
+                          }
+                          return (
                           <div key={itemIndex} className="bg-white p-6 rounded-lg shadow-md">
+                            {item.image_url && item.image_url.trim() !== '' && (
+                              <div className="mb-4 overflow-hidden rounded-lg">
+                                <img 
+                                  src={item.image_url} 
+                                  alt={item.title || 'Item image'}
+                                  className="w-full h-48 object-cover rounded-lg"
+                                  style={{ display: 'block' }}
+                                  onError={(e) => {
+                                    console.error('Failed to load image:', item.image_url, 'for item:', item.title);
+                                    e.target.style.display = 'none';
+                                  }}
+                                  onLoad={() => {
+                                    console.log('Image loaded successfully:', item.image_url);
+                                  }}
+                                />
+                              </div>
+                            )}
                             {item.title && (
                               <h3 className="text-lg font-semibold text-gray-900 mb-3">
                                 {item.title}
@@ -497,7 +519,8 @@ const About = () => {
                               </p>
                             )}
                           </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                   </div>
