@@ -47,9 +47,9 @@ const Programs = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-yellow-50 py-16">
+      <section className="bg-gradient-to-br from-blue-50 to-yellow-50 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             {siteContent.programs?.hero?.title || "Our Programs"}
           </h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
@@ -108,6 +108,15 @@ const Programs = () => {
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {section.content.items.map((item, itemIndex) => (
                         <div key={itemIndex} className="bg-white p-6 rounded-lg shadow-md">
+                          {item.image_url && (
+                            <div className="mb-4">
+                              <img 
+                                src={item.image_url} 
+                                alt={item.title || 'Item image'}
+                                className="w-full h-48 object-cover rounded-lg"
+                              />
+                            </div>
+                          )}
                           {item.title && (
                             <h3 className="text-lg font-semibold text-gray-900 mb-3">
                               {item.title}
