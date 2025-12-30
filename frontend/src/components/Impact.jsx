@@ -261,6 +261,15 @@ const Impact = () => {
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {section.content.items.map((item, itemIndex) => (
                         <div key={itemIndex} className="bg-white p-6 rounded-lg shadow-md">
+                          {item.image_url && (
+                            <div className="mb-4">
+                              <img 
+                                src={item.image_url} 
+                                alt={item.title || 'Item image'}
+                                className="w-full h-48 object-cover rounded-lg"
+                              />
+                            </div>
+                          )}
                           {item.title && (
                             <h3 className="text-lg font-semibold text-gray-900 mb-3">
                               {item.title}
@@ -293,6 +302,45 @@ const Impact = () => {
             </p>
           </div>
 
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <Card className="text-center border-0 shadow-lg">
+              <CardContent className="pt-8">
+                <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Central Mumbai</h3>
+                <p className="text-gray-600 mb-4">
+                  Primary operations center serving Dharavi, Mahim, and surrounding communities
+                </p>
+                <div className="text-2xl font-bold text-blue-600">5,000+</div>
+                <div className="text-sm text-gray-500">Beneficiaries</div>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center border-0 shadow-lg">
+              <CardContent className="pt-8">
+                <MapPin className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Western Suburbs</h3>
+                <p className="text-gray-600 mb-4">
+                  Extended outreach programs in Andheri, Borivali, and adjacent areas
+                </p>
+                <div className="text-2xl font-bold text-yellow-600">2,500+</div>
+                <div className="text-sm text-gray-500">Beneficiaries</div>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center border-0 shadow-lg">
+              <CardContent className="pt-8">
+                <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Eastern Districts</h3>
+                <p className="text-gray-600 mb-4">
+                  Community partnerships extending our impact to underserved eastern regions
+                </p>
+                <div className="text-2xl font-bold text-blue-600">1,000+</div>
+                <div className="text-sm text-gray-500">Beneficiaries</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Duplicate Location Cards Section */}
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <Card className="text-center border-0 shadow-lg">
               <CardContent className="pt-8">
