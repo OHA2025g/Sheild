@@ -67,7 +67,10 @@ const PageManagement = ({
       page: section.page,
       section: section.section,
       title: section.title,
-      content: section.content,
+      content: {
+        ...section.content,
+        metadata: section.content.metadata || {}
+      },
       order: section.order,
       is_active: section.is_active
     });
