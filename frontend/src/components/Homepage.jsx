@@ -226,7 +226,7 @@ const Homepage = () => {
                       {siteContent?.homepage?.programs?.youthProgram?.title || "Youth Skilling & Livelihoods"}
                     </CardTitle>
                     <CardDescription className="text-lg">
-                      {siteContent?.homepage?.programs?.youthProgram?.partnership || "Partnership with Tech Mahindra Foundation"}
+                      {siteContent?.homepage?.programs?.youthProgram?.partnership || ""}
                     </CardDescription>
                   </div>
                 </div>
