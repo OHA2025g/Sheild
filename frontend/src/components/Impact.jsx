@@ -197,11 +197,9 @@ const Impact = () => {
                   </div>
                   <CardContent className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">{story.name}</h3>
-                    <div className="mb-4 space-y-2">
-                      <div className="flex items-center justify-center">
-                        <span className="text-blue-600 font-semibold">{story.achievement}</span>
-                      </div>
-                      <div className="flex items-center justify-center text-gray-500 text-sm">
+                    <div className="mb-4 flex items-center justify-between">
+                      <span className="text-blue-600 font-semibold">{story.achievement}</span>
+                      <div className="flex items-center text-gray-500 text-sm">
                         <MapPin className="h-4 w-4 mr-1" />
                         {story.location}
                       </div>
@@ -261,7 +259,7 @@ const Impact = () => {
 
                   {/* Dynamic Items */}
                   {section.content.items && section.content.items.length > 0 && (
-                    section.content.metadata?.display_as_carousel ? (
+                    (section.content.metadata && section.content.metadata.display_as_carousel === true) ? (
                       <div className="w-full max-w-6xl mx-auto relative">
                         <Carousel className="w-full">
                           <CarouselContent className="-ml-2 md:-ml-4">
