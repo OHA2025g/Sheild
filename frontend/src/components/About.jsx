@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from './ui/carousel';
 import { Heart, Users, Award, Target, Eye, Star, CheckCircle, Calendar, Building } from 'lucide-react';
 import { api, getPublicSiteContent, getLeadershipTeam, getDetailedPageSections } from '../api';
 import Header from './Header';
@@ -427,25 +428,85 @@ const About = () => {
                     </div>
                     
                     {section.content.items && section.content.items.length > 0 && (
-                      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {section.content.items.map((partner, partnerIndex) => (
-                          <Card key={partnerIndex} className="text-center border-2 border-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-300">
-                            <CardContent className="p-6">
-                              <div className="mb-4">
-                                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                  <Building className="h-8 w-8 text-blue-600" />
-                                </div>
+                      section.content.metadata?.display_as_carousel === true ? (
+                        <div className="w-full max-w-6xl mx-auto relative">
+                          <Carousel className="w-full">
+                            <CarouselContent className="-ml-2 md:-ml-4">
+                              {section.content.items.map((partner, partnerIndex) => (
+                                <CarouselItem key={partnerIndex} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                                  <Card className="text-center border-2 border-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-300 h-full">
+                                    <CardContent className="p-6">
+                                      {partner.image_url && partner.image_url.trim() !== '' ? (
+                                        <div className="mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4" style={{ minHeight: '120px', maxHeight: '120px' }}>
+                                          <img 
+                                            src={partner.image_url} 
+                                            alt={partner.title || 'Partner logo'}
+                                            className="max-w-full max-h-full object-contain"
+                                            style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100px' }}
+                                            onError={(e) => {
+                                              e.target.style.display = 'none';
+                                            }}
+                                          />
+                                        </div>
+                                      ) : (
+                                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                          <Building className="h-8 w-8 text-blue-600" />
+                                        </div>
+                                      )}
+                                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                        {partner.title}
+                                      </h3>
+                                      {partner.description && (
+                                        <p className="text-gray-600 text-sm leading-relaxed">
+                                          {partner.description}
+                                        </p>
+                                      )}
+                                    </CardContent>
+                                  </Card>
+                                </CarouselItem>
+                              ))}
+                            </CarouselContent>
+                            <CarouselPrevious className="left-0 md:-left-12" />
+                            <CarouselNext className="right-0 md:-right-12" />
+                          </Carousel>
+                        </div>
+                      ) : (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                          {section.content.items.map((partner, partnerIndex) => (
+                            <Card key={partnerIndex} className="text-center border-2 border-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-300">
+                              <CardContent className="p-6">
+                                {partner.image_url && partner.image_url.trim() !== '' ? (
+                                  <div className="mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4" style={{ minHeight: '120px', maxHeight: '120px' }}>
+                                    <img 
+                                      src={partner.image_url} 
+                                      alt={partner.title || 'Partner logo'}
+                                      className="max-w-full max-h-full object-contain"
+                                      style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100px' }}
+                                      onError={(e) => {
+                                        e.target.style.display = 'none';
+                                      }}
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="mb-4">
+                                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                      <Building className="h-8 w-8 text-blue-600" />
+                                    </div>
+                                  </div>
+                                )}
                                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
                                   {partner.title}
                                 </h3>
-                                <p className="text-gray-600 text-sm leading-relaxed">
-                                  {partner.description}
-                                </p>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
+                                {partner.description && (
+                                  <p className="text-gray-600 text-sm leading-relaxed">
+                                    {partner.description}
+                                  </p>
+                                )}
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      )
                     )}
                   </div>
                 </section>
@@ -483,45 +544,89 @@ const About = () => {
 
                     {/* Dynamic Items */}
                     {section.content.items && section.content.items.length > 0 && (
-                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {section.content.items.map((item, itemIndex) => {
-                          // Debug: log item data
-                          if (item.image_url) {
-                            console.log('Item with image:', { index: itemIndex, title: item.title, image_url: item.image_url });
-                          }
-                          return (
-                          <div key={itemIndex} className="bg-white p-6 rounded-lg shadow-md">
-                            {item.image_url && item.image_url.trim() !== '' && (
-                              <div className="mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4" style={{ minHeight: '160px', maxHeight: '160px' }}>
-                                <img 
-                                  src={item.image_url} 
-                                  alt={item.title || 'Item image'}
-                                  className="max-w-full max-h-full object-contain"
-                                  style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '132px' }}
-                                  onError={(e) => {
-                                    console.error('Failed to load image:', item.image_url, 'for item:', item.title);
-                                    e.target.style.display = 'none';
-                                  }}
-                                  onLoad={() => {
-                                    console.log('Image loaded successfully:', item.image_url);
-                                  }}
-                                />
-                              </div>
-                            )}
-                            {item.title && (
-                              <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                                {item.title}
-                              </h3>
-                            )}
-                            {item.description && (
-                              <p className="text-gray-600">
-                                {item.description}
-                              </p>
-                            )}
-                          </div>
-                          );
-                        })}
-                      </div>
+                      section.content.metadata?.display_as_carousel === true ? (
+                        <div className="w-full max-w-6xl mx-auto relative">
+                          <Carousel className="w-full">
+                            <CarouselContent className="-ml-2 md:-ml-4">
+                              {section.content.items.map((item, itemIndex) => (
+                                <CarouselItem key={itemIndex} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                                  <div className="bg-white p-6 rounded-lg shadow-md h-full">
+                                    {item.image_url && item.image_url.trim() !== '' && (
+                                      <div className="mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4" style={{ minHeight: '160px', maxHeight: '160px' }}>
+                                        <img 
+                                          src={item.image_url} 
+                                          alt={item.title || 'Item image'}
+                                          className="max-w-full max-h-full object-contain"
+                                          style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '132px' }}
+                                          onError={(e) => {
+                                            console.error('Failed to load image:', item.image_url, 'for item:', item.title);
+                                            e.target.style.display = 'none';
+                                          }}
+                                          onLoad={() => {
+                                            console.log('Image loaded successfully:', item.image_url);
+                                          }}
+                                        />
+                                      </div>
+                                    )}
+                                    {item.title && (
+                                      <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                                        {item.title}
+                                      </h3>
+                                    )}
+                                    {item.description && (
+                                      <p className="text-gray-600">
+                                        {item.description}
+                                      </p>
+                                    )}
+                                  </div>
+                                </CarouselItem>
+                              ))}
+                            </CarouselContent>
+                            <CarouselPrevious className="left-0 md:-left-12" />
+                            <CarouselNext className="right-0 md:-right-12" />
+                          </Carousel>
+                        </div>
+                      ) : (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {section.content.items.map((item, itemIndex) => {
+                            // Debug: log item data
+                            if (item.image_url) {
+                              console.log('Item with image:', { index: itemIndex, title: item.title, image_url: item.image_url });
+                            }
+                            return (
+                            <div key={itemIndex} className="bg-white p-6 rounded-lg shadow-md">
+                              {item.image_url && item.image_url.trim() !== '' && (
+                                <div className="mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4" style={{ minHeight: '160px', maxHeight: '160px' }}>
+                                  <img 
+                                    src={item.image_url} 
+                                    alt={item.title || 'Item image'}
+                                    className="max-w-full max-h-full object-contain"
+                                    style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '132px' }}
+                                    onError={(e) => {
+                                      console.error('Failed to load image:', item.image_url, 'for item:', item.title);
+                                      e.target.style.display = 'none';
+                                    }}
+                                    onLoad={() => {
+                                      console.log('Image loaded successfully:', item.image_url);
+                                    }}
+                                  />
+                                </div>
+                              )}
+                              {item.title && (
+                                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                                  {item.title}
+                                </h3>
+                              )}
+                              {item.description && (
+                                <p className="text-gray-600">
+                                  {item.description}
+                                </p>
+                              )}
+                            </div>
+                            );
+                          })}
+                        </div>
+                      )
                     )}
                   </div>
                 </div>
