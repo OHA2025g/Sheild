@@ -1619,7 +1619,15 @@ const handleAddBlog = async () => {
   const handleCreatePageSection = async () => {
     setLoading(true);
     try {
-      await api.admin.addDetailedPageSection(pageSectionForm);
+      // Ensure metadata is properly structured
+      const formData = {
+        ...pageSectionForm,
+        content: {
+          ...pageSectionForm.content,
+          metadata: pageSectionForm.content.metadata || {}
+        }
+      };
+      await api.admin.addDetailedPageSection(formData);
       await loadPageContent(selectedPage);
       resetPageSectionForm();
 
@@ -1642,7 +1650,15 @@ const handleAddBlog = async () => {
   const handleUpdatePageSection = async () => {
     setLoading(true);
     try {
-      await api.admin.updateDetailedPageSection(editingPageSection.id, pageSectionForm);
+      // Ensure metadata is properly structured
+      const formData = {
+        ...pageSectionForm,
+        content: {
+          ...pageSectionForm.content,
+          metadata: pageSectionForm.content.metadata || {}
+        }
+      };
+      await api.admin.updateDetailedPageSection(editingPageSection.id, formData);
       await loadPageContent(selectedPage);
       resetPageSectionForm();
 
