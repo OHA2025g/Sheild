@@ -259,7 +259,7 @@ const Impact = () => {
 
                   {/* Dynamic Items */}
                   {section.content.items && section.content.items.length > 0 && (
-                    (section.content.metadata && section.content.metadata.display_as_carousel === true) ? (
+                    (section.content.metadata?.display_as_carousel === true) ? (
                       <div className="w-full max-w-6xl mx-auto relative">
                         <Carousel className="w-full">
                           <CarouselContent className="-ml-2 md:-ml-4">
