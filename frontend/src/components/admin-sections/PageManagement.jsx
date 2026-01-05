@@ -391,6 +391,33 @@ const PageManagement = ({
                   </Button>
                 </div>
                 
+                {/* Carousel Display Option */}
+                {(pageSectionForm.content.items || []).length > 0 && (
+                  <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <input
+                      type="checkbox"
+                      id="display_as_carousel"
+                      checked={pageSectionForm.content.metadata?.display_as_carousel || false}
+                      onChange={(e) => {
+                        setPageSectionForm(prev => ({
+                          ...prev,
+                          content: {
+                            ...prev.content,
+                            metadata: {
+                              ...prev.content.metadata,
+                              display_as_carousel: e.target.checked
+                            }
+                          }
+                        }));
+                      }}
+                      className="rounded border-gray-300"
+                    />
+                    <Label htmlFor="display_as_carousel" className="text-sm font-medium text-gray-700 cursor-pointer">
+                      Display items in carousel (sliding form)
+                    </Label>
+                  </div>
+                )}
+                
                 {(pageSectionForm.content.items || []).map((item, index) => (
                   <div key={index} className="p-4 border rounded-lg space-y-2">
                     <div className="flex items-center justify-between">
