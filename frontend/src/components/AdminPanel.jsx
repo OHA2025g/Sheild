@@ -1642,12 +1642,7 @@ const handleAddBlog = async () => {
   const handleUpdatePageSection = async () => {
     setLoading(true);
     try {
-      await api.admin.updateDetailedPageSection(editingPageSection.id, {
-        title: pageSectionForm.title,
-        content: pageSectionForm.content,
-        order: pageSectionForm.order,
-        is_active: pageSectionForm.is_active
-      });
+      await api.admin.updateDetailedPageSection(editingPageSection.id, pageSectionForm);
       await loadPageContent(selectedPage);
       resetPageSectionForm();
 
