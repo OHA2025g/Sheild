@@ -407,7 +407,7 @@ const PageManagement = ({
                           content: {
                             ...prev.content,
                             metadata: {
-                              ...prev.content.metadata,
+                              ...(prev.content.metadata || {}),
                               display_as_carousel: e.target.checked
                             }
                           }
