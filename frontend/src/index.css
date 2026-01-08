@@ -84,3 +84,11 @@ code {
     @apply bg-background text-foreground;
     }
 }
+
+/* Custom utility overrides */
+@layer utilities {
+  .py-20 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}

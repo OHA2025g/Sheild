@@ -308,6 +308,27 @@ export const api = {
       return response.data;
     },
 
+    // Impact Highlights Management
+    getAllImpactHighlights: async () => {
+      const response = await apiClient.get('/admin/impact-highlights');
+      return response.data;
+    },
+
+    addImpactHighlight: async (highlightData) => {
+      const response = await apiClient.post('/admin/impact-highlights', highlightData);
+      return response.data;
+    },
+
+    updateImpactHighlight: async (highlightId, highlightData) => {
+      const response = await apiClient.put(`/admin/impact-highlights/${highlightId}`, highlightData);
+      return response.data;
+    },
+
+    deleteImpactHighlight: async (highlightId) => {
+      const response = await apiClient.delete(`/admin/impact-highlights/${highlightId}`);
+      return response.data;
+    },
+
     // Donations Management
     getAllDonations: async () => {
       const response = await apiClient.get('/admin/donations');
@@ -489,6 +510,17 @@ export const getDetailedPageSections = async (page) => {
     return response.data;
   } catch (error) {
     console.error(`Failed to fetch detailed page sections for ${page}:`, error);
+    throw error;
+  }
+};
+
+// Impact Highlights API (public)
+export const getImpactHighlights = async () => {
+  try {
+    const response = await apiClient.get('/impact-highlights');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch impact highlights:', error);
     throw error;
   }
 };

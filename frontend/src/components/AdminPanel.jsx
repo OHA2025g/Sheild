@@ -31,13 +31,15 @@ import {
   Settings,
   Layout,
   Quote,
-  DollarSign
+  DollarSign,
+  Sparkles
 } from 'lucide-react';
 import TiptapEditor from './TiptapEditor';
 import { api } from '../api';
 import UserManagement from './admin-sections/UserManagement';
 import SiteSettings from './admin-sections/SiteSettings';
 import PageManagement from './admin-sections/PageManagement';
+import ImpactHighlights from './admin-sections/ImpactHighlights';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -1824,6 +1826,14 @@ const handleAddBlog = async () => {
                     Testimonials
                   </Button>
                   <Button
+                    variant={activeTab === 'impact-highlights' ? 'default' : 'ghost'}
+                    onClick={() => setActiveTab('impact-highlights')}
+                    className="w-full justify-start"
+                  >
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Impact Highlights
+                  </Button>
+                  <Button
                     variant={activeTab === 'donations' ? 'default' : 'ghost'}
                     onClick={() => setActiveTab('donations')}
                     className="w-full justify-start"
@@ -3524,6 +3534,10 @@ const handleAddBlog = async () => {
                 handleUpdatePageSection={handleUpdatePageSection}
                 handleDeletePageSection={handleDeletePageSection}
               />
+            )}
+
+            {activeTab === 'impact-highlights' && (
+              <ImpactHighlights />
             )}
 
             {activeTab === 'users' && (

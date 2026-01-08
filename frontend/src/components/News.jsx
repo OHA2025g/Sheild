@@ -38,7 +38,6 @@ const News = () => {
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-yellow-50 py-16 text-center">
-        <BookOpen className="h-16 w-16 text-blue-600 mx-auto mb-6" />
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">News & Updates</h1>
         <p className="text-xl text-gray-700 max-w-3xl mx-auto">
           Stay up to date with our latest announcements, events, and updates.

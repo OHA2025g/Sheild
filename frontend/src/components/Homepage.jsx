@@ -11,6 +11,7 @@ import { api, getPublicSiteContent } from '../api';
 import Header from './Header';
 import Footer from './Footer';
 import TestimonialsSection from './TestimonialsSection';
+import ImpactHighlightsSection from './ImpactHighlightsSection';
 
 const Homepage = () => {
   const { toast } = useToast();
@@ -217,7 +218,7 @@ const Homepage = () => {
           
           <div className="grid md:grid-cols-2 gap-12">
             {/* Youth Skilling */}
-            <Card className="h-full hover:shadow-lg transition-shadow duration-300">
+            <Card className="h-full hover:shadow-lg transition-shadow duration-300 flex flex-col">
               <CardHeader>
                 <div className="flex items-center mb-4">
                   <GraduationCap className="h-12 w-12 text-blue-600 mr-4" />
@@ -231,48 +232,50 @@ const Homepage = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-6">
-                  {siteContent?.homepage?.programs?.youthProgram?.description || "Specialized vocational training programs for underprivileged youth focusing on CRS, ITES-BPO, and Nursing Assistant courses."}
-                </p>
-                <div className="space-y-2 mb-6">
-                  {siteContent?.homepage?.programs?.youthProgram?.feature1 && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      {siteContent.homepage.programs.youthProgram.feature1}
-                    </div>
-                  )}
-                  {siteContent?.homepage?.programs?.youthProgram?.feature2 && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      {siteContent.homepage.programs.youthProgram.feature2}
-                    </div>
-                  )}
-                  {siteContent?.homepage?.programs?.youthProgram?.feature3 && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      {siteContent.homepage.programs.youthProgram.feature3}
-                    </div>
-                  )}
-                  {/* Fallback to dynamic stats if features not set */}
-                  {!siteContent?.homepage?.programs?.youthProgram?.feature1 && (
-                    <>
+              <CardContent className="flex flex-col flex-grow">
+                <div className="flex-grow">
+                  <p className="text-gray-600 mb-6">
+                    {siteContent?.homepage?.programs?.youthProgram?.description || "Specialized vocational training programs for underprivileged youth focusing on CRS, ITES-BPO, and Nursing Assistant courses."}
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {siteContent?.homepage?.programs?.youthProgram?.feature1 && (
                       <div className="flex items-center text-sm text-gray-600">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                        {impactStats.youthTrained?.toLocaleString()}+ youth trained across all programs
+                        {siteContent.homepage.programs.youthProgram.feature1}
                       </div>
+                    )}
+                    {siteContent?.homepage?.programs?.youthProgram?.feature2 && (
                       <div className="flex items-center text-sm text-gray-600">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                        {impactStats.youthPlaced?.toLocaleString()}+ placed with reputed employers
+                        {siteContent.homepage.programs.youthProgram.feature2}
                       </div>
+                    )}
+                    {siteContent?.homepage?.programs?.youthProgram?.feature3 && (
                       <div className="flex items-center text-sm text-gray-600">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                        Average salary: ₹8,700 - ₹13,946/month
+                        {siteContent.homepage.programs.youthProgram.feature3}
                       </div>
-                    </>
-                  )}
+                    )}
+                    {/* Fallback to dynamic stats if features not set */}
+                    {!siteContent?.homepage?.programs?.youthProgram?.feature1 && (
+                      <>
+                        <div className="flex items-center text-sm text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          {impactStats.youthTrained?.toLocaleString()}+ youth trained across all programs
+                        </div>
+                        <div className="flex items-center text-sm text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          {impactStats.youthPlaced?.toLocaleString()}+ placed with reputed employers
+                        </div>
+                        <div className="flex items-center text-sm text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Average salary: ₹8,700 - ₹13,946/month
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <Button asChild className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                <Button asChild className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-auto">
                   <Link to="/programs">
                     {siteContent?.homepage?.programs?.youthProgram?.buttonText || "Learn More"} <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
@@ -281,7 +284,7 @@ const Homepage = () => {
             </Card>
 
             {/* Senior Citizens */}
-            <Card className="h-full hover:shadow-lg transition-shadow duration-300">
+            <Card className="h-full hover:shadow-lg transition-shadow duration-300 flex flex-col">
               <CardHeader>
                 <div className="flex items-center mb-4">
                   <Heart className="h-12 w-12 text-yellow-500 mr-4" />
@@ -295,48 +298,50 @@ const Homepage = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-6">
-                  {siteContent?.homepage?.programs?.seniorProgram?.description || "Comprehensive healthcare, psychosocial, legal, and recreational services for elderly in Dharavi and beyond."}
-                </p>
-                <div className="space-y-2 mb-6">
-                  {siteContent?.homepage?.programs?.seniorProgram?.feature1 && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      {siteContent.homepage.programs.seniorProgram.feature1}
-                    </div>
-                  )}
-                  {siteContent?.homepage?.programs?.seniorProgram?.feature2 && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      {siteContent.homepage.programs.seniorProgram.feature2}
-                    </div>
-                  )}
-                  {siteContent?.homepage?.programs?.seniorProgram?.feature3 && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      {siteContent.homepage.programs.seniorProgram.feature3}
-                    </div>
-                  )}
-                  {/* Fallback to default if features not set */}
-                  {!siteContent?.homepage?.programs?.seniorProgram?.feature1 && (
-                    <>
+              <CardContent className="flex flex-col flex-grow">
+                <div className="flex-grow">
+                  <p className="text-gray-600 mb-6">
+                    {siteContent?.homepage?.programs?.seniorProgram?.description || "Comprehensive healthcare, psychosocial, legal, and recreational services for elderly in Dharavi and beyond."}
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {siteContent?.homepage?.programs?.seniorProgram?.feature1 && (
                       <div className="flex items-center text-sm text-gray-600">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                        2000+ seniors in daily exercise & yoga
+                        {siteContent.homepage.programs.seniorProgram.feature1}
                       </div>
+                    )}
+                    {siteContent?.homepage?.programs?.seniorProgram?.feature2 && (
                       <div className="flex items-center text-sm text-gray-600">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                        750+ free cataract surgeries performed
+                        {siteContent.homepage.programs.seniorProgram.feature2}
                       </div>
+                    )}
+                    {siteContent?.homepage?.programs?.seniorProgram?.feature3 && (
                       <div className="flex items-center text-sm text-gray-600">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                        500+ elder abuse cases addressed
+                        {siteContent.homepage.programs.seniorProgram.feature3}
                       </div>
-                    </>
-                  )}
+                    )}
+                    {/* Fallback to default if features not set */}
+                    {!siteContent?.homepage?.programs?.seniorProgram?.feature1 && (
+                      <>
+                        <div className="flex items-center text-sm text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          2000+ seniors in daily exercise & yoga
+                        </div>
+                        <div className="flex items-center text-sm text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          750+ free cataract surgeries performed
+                        </div>
+                        <div className="flex items-center text-sm text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          500+ elder abuse cases addressed
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <Button asChild className="w-full bg-yellow-400 hover:bg-yellow-500 text-black">
+                <Button asChild className="w-full bg-yellow-400 hover:bg-yellow-500 text-black mt-auto">
                   <Link to="/programs">
                     {siteContent?.homepage?.programs?.seniorProgram?.buttonText || "Learn More"} <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
@@ -346,6 +351,9 @@ const Homepage = () => {
           </div>
         </div>
       </section>
+
+      {/* Impact Highlights Section */}
+      <ImpactHighlightsSection />
 
       {/* Testimonials Section */}
       <TestimonialsSection />

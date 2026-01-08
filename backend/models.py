@@ -496,3 +496,37 @@ class Donation(BaseModel):
     notes: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+# Impact Highlights Models
+class ImpactHighlight(BaseModel):
+    id: str
+    title: str
+    description: str
+    icon: Optional[str] = None  # Icon name or URL
+    value: str  # The highlighted number/metric (e.g., "5,000+")
+    category: str  # e.g., "Youth", "Seniors", "Women", "Community"
+    color: Optional[str] = "blue"  # Color theme for the highlight
+    order: int = 0
+    is_active: bool = True
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+
+class ImpactHighlightCreate(BaseModel):
+    title: str = Field(..., min_length=2, max_length=100)
+    description: str = Field(..., min_length=10, max_length=500)
+    icon: Optional[str] = Field(None, max_length=100)
+    value: str = Field(..., min_length=1, max_length=50)
+    category: str = Field(..., min_length=2, max_length=50)
+    color: Optional[str] = Field("blue", max_length=20)
+    order: int = 0
+    is_active: bool = True
+
+class ImpactHighlightUpdate(BaseModel):
+    title: Optional[str] = Field(None, min_length=2, max_length=100)
+    description: Optional[str] = Field(None, min_length=10, max_length=500)
+    icon: Optional[str] = Field(None, max_length=100)
+    value: Optional[str] = Field(None, min_length=1, max_length=50)
+    category: Optional[str] = Field(None, min_length=2, max_length=50)
+    color: Optional[str] = Field(None, max_length=20)
+    order: Optional[int] = None
+    is_active: Optional[bool] = None

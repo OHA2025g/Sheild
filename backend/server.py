@@ -1142,6 +1142,97 @@ async def delete_testimonial(testimonial_id: str, current_user: dict = Depends(a
         logger.error(f"Failed to delete testimonial: {e}")
         raise HTTPException(status_code=500, detail="Failed to delete testimonial")
 
+# IMPACT HIGHLIGHTS ENDPOINTS
+@api_router.get("/impact-highlights")
+async def get_impact_highlights():
+    """Get all active impact highlights (no authentication required)"""
+    try:
+        highlights = await db.impact_highlights.find(
+            {"is_active": True}, 
+            sort=[("order", 1), ("created_at", -1)]
+        ).to_list(length=None)
+        
+        # Convert ObjectId to string for JSON serialization
+        for highlight in highlights:
+            highlight["_id"] = str(highlight["_id"])
+            
+        return {"highlights": highlights}
+    except Exception as e:
+        logger.error(f"Failed to fetch impact highlights: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch impact highlights")
+
+@api_router.get("/admin/impact-highlights")
+async def get_admin_impact_highlights(current_user: dict = Depends(admin_required)):
+    """Get all impact highlights for admin management"""
+    try:
+        highlights = await db.impact_highlights.find({}, sort=[("order", 1), ("created_at", -1)]).to_list(length=None)
+        
+        # Convert ObjectId to string for JSON serialization
+        for highlight in highlights:
+            highlight["_id"] = str(highlight["_id"])
+            
+        return {"highlights": highlights}
+    except Exception as e:
+        logger.error(f"Failed to fetch admin impact highlights: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch impact highlights")
+
+@api_router.post("/admin/impact-highlights", response_model=MessageResponse)
+async def create_impact_highlight(highlight_data: ImpactHighlightCreate, current_user: dict = Depends(admin_required)):
+    """Create a new impact highlight"""
+    try:
+        highlight_dict = highlight_data.dict()
+        highlight_dict["id"] = str(uuid.uuid4())
+        highlight_dict["created_at"] = datetime.utcnow()
+        highlight_dict["updated_at"] = datetime.utcnow()
+        
+        result = await db.impact_highlights.insert_one(highlight_dict)
+        
+        logger.info(f"Impact highlight created by {current_user['username']}: {highlight_dict['title']}")
+        return MessageResponse(message="Impact highlight created successfully!")
+    except Exception as e:
+        logger.error(f"Failed to create impact highlight: {e}")
+        raise HTTPException(status_code=500, detail="Failed to create impact highlight")
+
+@api_router.put("/admin/impact-highlights/{highlight_id}", response_model=MessageResponse)
+async def update_impact_highlight(highlight_id: str, highlight_data: ImpactHighlightUpdate, current_user: dict = Depends(admin_required)):
+    """Update an impact highlight"""
+    try:
+        update_data = {k: v for k, v in highlight_data.dict().items() if v is not None}
+        update_data["updated_at"] = datetime.utcnow()
+        
+        result = await db.impact_highlights.update_one(
+            {"id": highlight_id},
+            {"$set": update_data}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Impact highlight not found")
+        
+        logger.info(f"Impact highlight updated by {current_user['username']}: {highlight_id}")
+        return MessageResponse(message="Impact highlight updated successfully!")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to update impact highlight: {e}")
+        raise HTTPException(status_code=500, detail="Failed to update impact highlight")
+
+@api_router.delete("/admin/impact-highlights/{highlight_id}", response_model=MessageResponse)
+async def delete_impact_highlight(highlight_id: str, current_user: dict = Depends(admin_required)):
+    """Delete an impact highlight"""
+    try:
+        result = await db.impact_highlights.delete_one({"id": highlight_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Impact highlight not found")
+        
+        logger.info(f"Impact highlight deleted by {current_user['username']}: {highlight_id}")
+        return MessageResponse(message="Impact highlight deleted successfully!")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to delete impact highlight: {e}")
+        raise HTTPException(status_code=500, detail="Failed to delete impact highlight")
+
 # USER MANAGEMENT ENDPOINTS
 @api_router.get("/admin/users")
 async def get_users(current_user: dict = Depends(admin_required)):

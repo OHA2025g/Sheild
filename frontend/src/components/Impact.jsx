@@ -6,6 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext
 import { api, getPublicSiteContent, getSuccessStories, getDetailedPageSections } from '../api';
 import Header from './Header';
 import Footer from './Footer';
+import ImpactHighlightsSection from './ImpactHighlightsSection';
 
 const Impact = () => {
   // Site content state
@@ -134,11 +135,15 @@ const Impact = () => {
         </div>
       </section>
 
-      {/* Impact Highlights */}
+      {/* Impact Highlights Section - Dynamic from Admin Panel */}
+      <ImpactHighlightsSection />
+
+      {/* Legacy Impact Highlights (keeping for reference) */}
+      {impactHighlights.length > 0 && (
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Impact Highlights</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Additional Highlights</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Key achievements that demonstrate our commitment to community transformation
             </p>
@@ -168,6 +173,7 @@ const Impact = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Success Stories */}
       <section className="py-20 bg-white">
@@ -428,7 +434,7 @@ const Impact = () => {
           </div>
 
           <div className="mt-12 text-center">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+            <div className="bg-white p-8 rounded-lg shadow-lg max-w-7xl mx-auto">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Total Community Impact</h3>
               <div className="grid md:grid-cols-4 gap-6">
                 <div>

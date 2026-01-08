@@ -67,7 +67,6 @@ const Blog = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-yellow-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <BookOpen className="h-16 w-16 text-blue-600 mx-auto mb-6" />
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Blog</h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
             Stories of impact, insights from the field, and updates on our mission to add life to years

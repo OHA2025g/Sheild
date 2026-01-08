@@ -7,6 +7,7 @@ import { Play, Users, Award, Heart, Calendar } from 'lucide-react';
 import { getPublicSiteContent, getGalleryItems } from '../api';
 import Header from './Header';
 import Footer from './Footer';
+import TestimonialsSection from './TestimonialsSection';
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -256,22 +257,7 @@ const Gallery = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">What People Say</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Voices from our community sharing their experiences with Shield Foundation
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="col-span-full text-center py-12">
-              <p className="text-gray-500 text-lg">Testimonials coming soon...</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection />
 
       {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
