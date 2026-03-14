@@ -1,18 +1,19 @@
-# Frontend Dockerfile
 FROM node:20-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Hardcode backend URL
+# Hardcoded backend URL
 ENV REACT_APP_BACKEND_URL=https://api.shieldfoundation.in/
 
 # Install dependencies
 COPY frontend/package.json frontend/yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-# Copy frontend source
+# Copy source code
 COPY frontend/ ./
+
+# Fix CRACO permission
+RUN chmod +x node_modules/.bin/craco
 
 # Build React app
 RUN yarn build
@@ -20,8 +21,6 @@ RUN yarn build
 # Install lightweight server
 RUN yarn global add serve
 
-# Expose port
 EXPOSE 3000
 
-# Run production build
 CMD ["serve", "-s", "build", "-l", "3000"]
